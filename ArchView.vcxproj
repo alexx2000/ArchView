@@ -123,7 +123,7 @@
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <OutputFile>.\Debug\ArchView.dll</OutputFile>
+      <OutputFile>.\Debug\ArchView.wlx</OutputFile>
       <ImportLibrary>.\Debug\ArchView.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\ArchView.def</ModuleDefinitionFile>
@@ -249,7 +249,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <SubSystem>Console</SubSystem>
-      <OutputFile>Release/ArchView.wlx</OutputFile>
+      <OutputFile>Release/ArchView.wlx64</OutputFile>
       <ImportLibrary>.\Release\ArchView.lib</ImportLibrary>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\ArchView.def</ModuleDefinitionFile>
