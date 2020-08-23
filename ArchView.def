@@ -1,0 +1,16 @@
+; ArchView.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ArchView"
+DESCRIPTION  'ArchView Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+	ListLoad
+	ListCloseWindow
+	ListGetDetectString
+;	ListSearchText
+	ListSendCommand
+;	ListPrint
+;	ListNotificationReceived
+;	ListSetDefaultParams
+;	ListGetPreviewBitmap
