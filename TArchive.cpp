@@ -192,46 +192,12 @@ DateTimeDosFormat(DWORD datetime, char* date, char* time)
 	WORD day    = 0;
 
 	//razbor dati i vremeni
-	_asm
-	{
-		push	eax
-		push	ebx
-		//second * 2
-		mov		eax, datetime
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000000011111b
-		add		ebx, ebx
-		mov		second, bx
-		//minute
-		shr		eax, 5
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000000111111b
-		mov		minute, bx
-		//hour
-		shr		eax, 6
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000000011111b
-		mov		hour, bx
-		//day
-		shr		eax, 5
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000000011111b
-		mov		day, bx
-		//month
-		shr		eax, 5
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000000001111b
-		mov		month, bx
-		//year + 1980
-		shr		eax, 4
-		mov		ebx, eax
-		and		ebx, 00000000000000000000000001111111b
-		add		ebx, 1980
-		mov		year, bx
-
-		pop		ebx
-		pop		eax
-	}
+	second = (datetime & 0x1F) * 2;
+	minute = (datetime >> 5) & 0x3F;
+	hour = (datetime >> 11) & 0x1F;
+	day = (datetime >> 16) & 0x1F;
+	month = (datetime >> 21) & 0x0F;
+	year = ((datetime >> 25) & 0x7F) + 1980;
 
 	char buf[4];
 
@@ -305,16 +271,7 @@ TakeLong(DWORD ll, LONG hl)
 WORD TArchive::
 TakeWord(BYTE lb, BYTE hb)
 {
-	WORD wrd = 0;
-	_asm
-	{
-		push	eax
-		mov		ah, hb		//0xXX00
-		mov		al, lb		//0x00XX
-		mov		wrd, ax		//0xXXXX
-		pop		eax
-	}
-	return wrd;
+	return (WORD)lb | ((WORD)hb) << 8;
 }
 
 //sobrat' DWORD iz WORDs
@@ -323,21 +280,7 @@ TakeWord(BYTE lb, BYTE hb)
 DWORD TArchive::
 TakeDWord(WORD lw, WORD hw)
 {
-	DWORD dwrd = 0;
-	_asm
-	{
-		push	eax
-		mov		eax, 0
-		mov		ax, hw		//0x0000XXXX
-		shl		eax, 16		//0xXXXX0000
-		mov		dwrd, eax
-		mov		eax, 0
-		mov		ax, lw		//0x0000XXXX
-		add		eax, dwrd	//0xXXXXXXXX
-		mov		dwrd, eax
-		pop		eax
-	}
-	return dwrd;
+	return (DWORD)lw | ((DWORD)hw) << 16;
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1c0a4261-0905-418f-9908-bc2ded31cda0}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{ee30392a-b85e-43ce-bdeb-0c9cba8911a8}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{b0cdb0e1-d8ad-4e21-ba22-c7dee9084798}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ArchView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalParametr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MIniFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MListParametrs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MListStrStr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MLogFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyLanguage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MySelectInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MySettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTestFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TAce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TArcPak.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TArj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBZip2Tbz2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TCab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TCpio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TDwc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TGZipTgz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="THa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLhaLzh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TPpm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TRar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TSqz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TTar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TWcxPluginTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZ.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZipJar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TZoo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArchView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unace\callback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalParametr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListPlugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MIniFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MListParametrs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MListStrStr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MLogFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLanguage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySelectInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTestFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unace\strucs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StructLanguage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StructType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TAce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TArchive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TArcPak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TArj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBZip2Tbz2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TCab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TCpio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TDwc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TGZipTgz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="THa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TLhaLzh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TPpm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TRar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TSqz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TTar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TWcxPluginTC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TZ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TZipJar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TZoo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnAce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unace\unacefnc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnRar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WcxHead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ArchView.def">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

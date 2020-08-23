@@ -16,6 +16,7 @@
 int TTar::
 AnalyzeFileHead(TAR_FILE_HEAD& head)
 {
+	int j = 0;
 	LARGE_INTEGER FILE_SIZE;
 	FILE_SIZE.QuadPart = 0;
 	DWORD CRC       = 0;
@@ -38,7 +39,7 @@ AnalyzeFileHead(TAR_FILE_HEAD& head)
 	//bivayut nenujnie 0x00('\0') 0x20(' ') 0x30 ('0')
 	char StrSize1[12] = {NULL};
 	BOOL BeginNumber = FALSE;
-	for(int i=0, j=0; i<11; i++)	//berem do 11 t.k. 12 simvol vsegda razdelitel'
+	for(int i=0; i<11; i++)	//berem do 11 t.k. 12 simvol vsegda razdelitel'
 	{
 		if (head.size[i] == 0x00)	//'\0'
 			continue;

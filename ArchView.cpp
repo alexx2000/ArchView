@@ -48,7 +48,7 @@ int AddToGenDetectString(char* GenDetectString, const char* StringExt)
 	char  e_ext[] = "\"|";
 	char* offset  = 0;
 	
-	offset = strchr(StringExt, ' ');
+	offset = (char *)strchr(StringExt, ' ');
 	//videlim ocherednoe rasshirenie (tut rekursiya)
 	if (offset)
 	{
@@ -83,7 +83,7 @@ ATOM MyRegisterClass()
 	wcex.style         = CS_HREDRAW | CS_VREDRAW | CS_PARENTDC;
 	wcex.lpfnWndProc   = (WNDPROC)WndProc;
 	wcex.cbClsExtra    = 0;
-	wcex.cbWndExtra    = 4;
+	wcex.cbWndExtra    = sizeof(LONG_PTR);
 	wcex.hInstance     = hInst;
 	wcex.hIcon         = 0;//::LoadIcon(hInst, (LPCTSTR)IDI_MY1);
 	wcex.hCursor       = ::LoadCursor(NULL, IDC_ARROW);
@@ -126,7 +126,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	char            BufStr[MAX_LOADSTRING] = {NULL};
 	//dlya raboti s parametrami dannoy kopii plagina
 	GlobalParametr* gp     = 0;
-	try { gp = (GlobalParametr*)::GetWindowLong(hWnd, 0); }
+	try { gp = (GlobalParametr*)::GetWindowLongPtr(hWnd, 0); }
 	catch (...) { gp = 0; }
 
 	PAINTSTRUCT ps;
@@ -531,7 +531,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //hwndParent - roditel'skoe okno dlya tab control
 HWND WINAPI DoCreateTabControl(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(hwndParent, 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(hwndParent, 0);
 
 	RECT rcClient;
 	HWND hWndTab;
@@ -560,7 +560,7 @@ LRESULT CALLBACK RichEditWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	HWND ListWin = 0;
 	//dlya raboti s parametrami dannoy kopii plagina
 	GlobalParametr* gp     = 0;
-	try { ListWin = ::GetParent(::GetParent(::GetParent(hWnd))); gp = (GlobalParametr*)::GetWindowLong(ListWin, 0); }
+	try { ListWin = ::GetParent(::GetParent(::GetParent(hWnd))); gp = (GlobalParametr*)::GetWindowLongPtr(ListWin, 0); }
 	catch (...) { gp = 0; }
 	//opredelit' chto eto za okno i ego original'nuiy obrabotchik sobitiy
 	WNDPROC OriginalWndProc = 0;
@@ -628,7 +628,7 @@ LRESULT CALLBACK RichEditWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 //hwndParent - okno tab control
 int CreateTabInfo(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -817,8 +817,8 @@ int CreateTabInfo(HWND hwndParent)
 		//podmenim obrabotchik sobitiy
 		if (gp->tInfo.hWndRichEdit)
 		{
-			gp->tInfo.REWndProc = ::GetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC);
-			::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+			gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
+			::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 		}
 	}
 
@@ -829,14 +829,14 @@ int CreateTabInfo(HWND hwndParent)
 //hwndParent - okno tab control
 int DeleteTabInfo(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	gp->tInfo.ListParam.DeleteHwndListParametrs();
 	if (gp->tInfo.hWndRichEdit)
 	{
 		//vernem obrabotchik sobitiy
 		if (gp->tInfo.REWndProc)
 		{
-			::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, gp->tInfo.REWndProc);
+			::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, gp->tInfo.REWndProc);
 			gp->tInfo.REWndProc = 0;
 		}
 		::DestroyWindow(gp->tInfo.hWndRichEdit);
@@ -874,7 +874,7 @@ int DeleteTabInfo(HWND hwndParent)
 //hwndParent - okno tab control
 int ShowTabInfo(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tInfo.hWndInfo, SW_SHOW);
 	return 1;
 }
@@ -883,7 +883,7 @@ int ShowTabInfo(HWND hwndParent)
 //hwndParent - okno tab control
 int HideTabInfo(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tInfo.hWndInfo, SW_HIDE);
 	return 1;
 }
@@ -892,7 +892,7 @@ int HideTabInfo(HWND hwndParent)
 //hwndParent - okno tab control
 int ResizeTabInfo(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1055,7 +1055,7 @@ int ResizeTabInfo(HWND hwndParent)
 //hwndParent - okno tab control
 int CreateTabContext(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1114,7 +1114,7 @@ int CreateTabContext(HWND hwndParent)
 //hwndParent - okno tab control
 int DeleteTabContext(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	if (gp->tContext.hWndHeader)
 	{
 		::DestroyWindow(gp->tContext.hWndHeader);
@@ -1132,7 +1132,7 @@ int DeleteTabContext(HWND hwndParent)
 //hwndParent - okno tab control
 int ShowTabContext(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tContext.hWndContext, SW_SHOW);
 	return 1;
 }
@@ -1141,7 +1141,7 @@ int ShowTabContext(HWND hwndParent)
 //hwndParent - okno tab control
 int HideTabContext(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tContext.hWndContext, SW_HIDE);
 	return 1;
 }
@@ -1150,7 +1150,7 @@ int HideTabContext(HWND hwndParent)
 //hwndParent - okno tab control
 int ResizeTabContext(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1175,7 +1175,7 @@ int ResizeTabContext(HWND hwndParent)
 //hwndParent - okno tab control
 int CreateTabComment(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1202,8 +1202,8 @@ int CreateTabComment(HWND hwndParent)
 	//podmenim obrabotchik sobitiy
 	if (gp->tComment.hWndRichEdit)
 	{
-		gp->tComment.REWndProc = ::GetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC);
-		::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+		gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
+		::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 	}
 
 	::SendMessage(gp->tComment.hWndRichEdit, WM_SETTEXT, 0, (LPARAM)gp->pTextComment);
@@ -1215,13 +1215,13 @@ int CreateTabComment(HWND hwndParent)
 //hwndParent - okno tab control
 int DeleteTabComment(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	if (gp->tComment.hWndRichEdit)
 	{
 		//vernem obrabotchik sobitiy
 		if (gp->tComment.REWndProc)
 		{
-			::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, gp->tComment.REWndProc);
+			::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, gp->tComment.REWndProc);
 			gp->tComment.REWndProc = 0;
 		}
 		::DestroyWindow(gp->tComment.hWndRichEdit);
@@ -1239,7 +1239,7 @@ int DeleteTabComment(HWND hwndParent)
 //hwndParent - okno tab control
 int ShowTabComment(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tComment.hWndComment, SW_SHOW);
 	return 1;
 }
@@ -1248,7 +1248,7 @@ int ShowTabComment(HWND hwndParent)
 //hwndParent - okno tab control
 int HideTabComment(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tComment.hWndComment, SW_HIDE);
 	return 1;
 }
@@ -1257,7 +1257,7 @@ int HideTabComment(HWND hwndParent)
 //hwndParent - okno tab control
 int ResizeTabComment(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1287,7 +1287,7 @@ int ResizeTabComment(HWND hwndParent)
 //hwndParent - okno tab control
 int CreateTabAbout(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1312,8 +1312,8 @@ int CreateTabAbout(HWND hwndParent)
 	//podmenim obrabotchik sobitiy
 	if (gp->tAbout.hWndRichEdit)
 	{
-		gp->tAbout.REWndProc = ::GetWindowLong(gp->tAbout.hWndRichEdit, GWL_WNDPROC);
-		::SetWindowLong(gp->tAbout.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+		gp->tAbout.REWndProc = ::GetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC);
+		::SetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 	}
 
 	//sozdadim stroku About
@@ -1732,13 +1732,13 @@ int CreateTabAbout(HWND hwndParent)
 //hwndParent - okno tab control
 int DeleteTabAbout(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	if (gp->tAbout.hWndRichEdit)
 	{
 		//vernem obrabotchik sobitiy
 		if (gp->tAbout.REWndProc)
 		{
-			::SetWindowLong(gp->tAbout.hWndRichEdit, GWL_WNDPROC, gp->tAbout.REWndProc);
+			::SetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC, gp->tAbout.REWndProc);
 			gp->tAbout.REWndProc = 0;
 		}
 		::DestroyWindow(gp->tAbout.hWndRichEdit);
@@ -1756,7 +1756,7 @@ int DeleteTabAbout(HWND hwndParent)
 //hwndParent - okno tab control
 int ShowTabAbout(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tAbout.hWndAbout, SW_SHOW);
 	return 1;
 }
@@ -1765,7 +1765,7 @@ int ShowTabAbout(HWND hwndParent)
 //hwndParent - okno tab control
 int HideTabAbout(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 	::ShowWindow(gp->tAbout.hWndAbout, SW_HIDE);
 	return 1;
 }
@@ -1774,7 +1774,7 @@ int HideTabAbout(HWND hwndParent)
 //hwndParent - okno tab control
 int ResizeTabAbout(HWND hwndParent)
 {
-	GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(::GetParent(hwndParent), 0);
+	GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(::GetParent(hwndParent), 0);
 
     RECT rcClient;
     ::GetClientRect(hwndParent, &rcClient);
@@ -1805,7 +1805,7 @@ int ResizeTabAbout(HWND hwndParent)
 UINT ComputeThreadProc(LPVOID pParam)
 {
 	DataForThread*  dft = (DataForThread*)pParam;
-	GlobalParametr* gp  = (GlobalParametr*)::GetWindowLong(dft->hWnd, 0);
+	GlobalParametr* gp  = (GlobalParametr*)::GetWindowLongPtr(dft->hWnd, 0);
 
 	gp->pArchData->Start(pParam);
 
@@ -1888,7 +1888,7 @@ HWND __stdcall ListLoad(HWND ParentWin,char* FileToLoad,int ShowFlags)
 		}
 
 		//priceplyaem k nemu nashi parametri etogo ekzemplyara plagina
-		::SetWindowLong(hwnd, 0, (long)gp);
+		::SetWindowLongPtr(hwnd, 0, (LONG_PTR)gp);
 
 		//sozdaem okno s zakladkami
 		gp->hWndTab = DoCreateTabControl(hwnd);
@@ -2098,7 +2098,7 @@ void __stdcall ListCloseWindow(HWND ListWin)
 	//problema reshena konstrukciey try-catch
 	try
 	{
-		GlobalParametr* gp = (GlobalParametr*)::GetWindowLong(ListWin, 0);
+		GlobalParametr* gp = (GlobalParametr*)::GetWindowLongPtr(ListWin, 0);
 		HWND hParentWnd     = 0;
 		int  QuickView      = gp->TypeQuickView;
 		int  SaveWindowSize = gp->sSettings.sSettingsWindow.SaveWindowSize;
@@ -2154,7 +2154,7 @@ void __stdcall ListCloseWindow(HWND ListWin)
 		delete gp;
 		gp = 0;
 		//otchistim parametr i v okne
-		::SetWindowLong(ListWin, 0, (long)0);
+		::SetWindowLongPtr(ListWin, 0, (long)0);
 
 		::DestroyWindow(ListWin);
 		::UnregisterClass("TMainClassWindow", hInst);
@@ -2426,7 +2426,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 {
 	//dlya raboti s parametrami dannoy kopii plagina
 	GlobalParametr* gp     = 0;
-	try { gp = (GlobalParametr*)::GetWindowLong(ListWin, 0); }
+	try { gp = (GlobalParametr*)::GetWindowLongPtr(ListWin, 0); }
 	catch (...) { gp = 0; }
 
 	RECT  rcClient    = {0};
@@ -2449,7 +2449,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//vernem obrabotchik sobitiy
 				if (gp->tComment.REWndProc)
 				{
-					::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, gp->tComment.REWndProc);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, gp->tComment.REWndProc);
 					gp->tComment.REWndProc = 0;
 				}
 				::DestroyWindow(gp->tComment.hWndRichEdit);
@@ -2468,8 +2468,8 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//podmenim obrabotchik sobitiy
 				if (gp->tComment.hWndRichEdit)
 				{
-					gp->tComment.REWndProc = ::GetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC);
-					::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+					gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2484,7 +2484,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//vernem obrabotchik sobitiy
 				if (gp->tInfo.REWndProc)
 				{
-					::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, gp->tInfo.REWndProc);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, gp->tInfo.REWndProc);
 					gp->tInfo.REWndProc = 0;
 				}
 				::DestroyWindow(gp->tInfo.hWndRichEdit);
@@ -2501,8 +2501,8 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//podmenim obrabotchik sobitiy
 				if (gp->tInfo.hWndRichEdit)
 				{
-					gp->tInfo.REWndProc = ::GetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC);
-					::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+					gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2523,7 +2523,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//vernem obrabotchik sobitiy
 				if (gp->tComment.REWndProc)
 				{
-					::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, gp->tComment.REWndProc);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, gp->tComment.REWndProc);
 					gp->tComment.REWndProc = 0;
 				}
 				::DestroyWindow(gp->tComment.hWndRichEdit);
@@ -2542,8 +2542,8 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//podmenim obrabotchik sobitiy
 				if (gp->tComment.hWndRichEdit)
 				{
-					gp->tComment.REWndProc = ::GetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC);
-					::SetWindowLong(gp->tComment.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+					gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2558,7 +2558,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//vernem obrabotchik sobitiy
 				if (gp->tInfo.REWndProc)
 				{
-					::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, gp->tInfo.REWndProc);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, gp->tInfo.REWndProc);
 					gp->tInfo.REWndProc = 0;
 				}
 				::DestroyWindow(gp->tInfo.hWndRichEdit);
@@ -2575,8 +2575,8 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				//podmenim obrabotchik sobitiy
 				if (gp->tInfo.hWndRichEdit)
 				{
-					gp->tInfo.REWndProc = ::GetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC);
-					::SetWindowLong(gp->tInfo.hWndRichEdit, GWL_WNDPROC, (long)RichEditWndProc);
+					gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
