@@ -64,6 +64,24 @@ TWcxPluginTC(DataForArchive& dfa, LanguageMessages& langmsg, LanguageResults& la
 //FUNCTIONS PRIVATE
 /////////////////////////////////////////////////////////////////////////////
 
+HMODULE TWcxPluginTC::
+LoadPlugin(LPCSTR lpLibFileName)
+{
+#ifdef _M_AMD64
+	size_t l = strlen(lpLibFileName);
+	if ((l > 2) && (strncmp(lpLibFileName + (l - 2), "64", 2) != 0))
+	{
+		char lpLibFileName64[MAX_PATH] = { 0 };
+		snprintf(lpLibFileName64, sizeof(lpLibFileName64), "%s64", lpLibFileName);
+		if (GetFileAttributes(lpLibFileName64) != INVALID_FILE_ATTRIBUTES)
+		{
+			return LoadLibrary(lpLibFileName64);
+		}
+	}
+#endif
+	return LoadLibrary(lpLibFileName);
+}
+
 //obrabotka zagolovka fayla/papki
 //head - struktura zagolovka fayla/papki
 //return
@@ -168,10 +186,10 @@ TestFile(char* path)
 
 		//chtob put' bil real'nim bez vremennih okrujeniya
 		if(!::ExpandEnvironmentStrings(m_pUnArchiveDll, pWcxPluginDll, MAX_PATH))
-			strncpy(pWcxPluginDll, m_pUnArchiveDll, MAX_PATH);
+			strncpy_s(pWcxPluginDll, m_pUnArchiveDll, MAX_PATH);
 
 		//zagrujaem DLL
-		if (DllModule = ::LoadLibrary(pWcxPluginDll))
+		if (DllModule = LoadPlugin(pWcxPluginDll))
 		{
 			//nahodim nujnie funkcii
 			OpenArchive          = (WCXOPENARCHIVE)         ::GetProcAddress(DllModule, "OpenArchive");
@@ -345,7 +363,7 @@ AnalyzeInfoOfArc(char* path)
 			strncpy(pWcxPluginDll, m_pUnArchiveDll, MAX_PATH);
 
 		//zagrujaem DLL
-		if (DllModule = ::LoadLibrary(pWcxPluginDll))
+		if (DllModule = LoadPlugin(pWcxPluginDll))
 		{
 			//nahodim nujnie funkcii
 			OpenArchive  = (WCXOPENARCHIVE) ::GetProcAddress(DllModule, "OpenArchive");

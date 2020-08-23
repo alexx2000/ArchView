@@ -18,6 +18,8 @@ private:
 	tHeaderData      m_HeaderData;		//zagolovok fayla/papki
 	tOpenArchiveData m_OpenArchiveData;	//zagolovok arhiva
 
+	HMODULE LoadPlugin(LPCSTR lpLibFileName);
+
 	//vnutrennie funkcii
 	int      AnalyzeFileHead(tHeaderData&, int&);	//obrabotka zagolovka fayla/papki
 
