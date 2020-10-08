@@ -818,7 +818,7 @@ int CreateTabInfo(HWND hwndParent)
 		if (gp->tInfo.hWndRichEdit)
 		{
 			gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
-			::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+			::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 		}
 	}
 
@@ -1203,7 +1203,7 @@ int CreateTabComment(HWND hwndParent)
 	if (gp->tComment.hWndRichEdit)
 	{
 		gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
-		::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+		::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 	}
 
 	::SendMessage(gp->tComment.hWndRichEdit, WM_SETTEXT, 0, (LPARAM)gp->pTextComment);
@@ -1313,7 +1313,7 @@ int CreateTabAbout(HWND hwndParent)
 	if (gp->tAbout.hWndRichEdit)
 	{
 		gp->tAbout.REWndProc = ::GetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC);
-		::SetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+		::SetWindowLongPtr(gp->tAbout.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 	}
 
 	//sozdadim stroku About
@@ -2469,7 +2469,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				if (gp->tComment.hWndRichEdit)
 				{
 					gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
-					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2502,7 +2502,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				if (gp->tInfo.hWndRichEdit)
 				{
 					gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
-					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2543,7 +2543,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				if (gp->tComment.hWndRichEdit)
 				{
 					gp->tComment.REWndProc = ::GetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC);
-					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+					::SetWindowLongPtr(gp->tComment.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 				}
 
 				//esli nado vernem focus
@@ -2576,7 +2576,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				if (gp->tInfo.hWndRichEdit)
 				{
 					gp->tInfo.REWndProc = ::GetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC);
-					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (long)RichEditWndProc);
+					::SetWindowLongPtr(gp->tInfo.hWndRichEdit, GWLP_WNDPROC, (LONG_PTR)RichEditWndProc);
 				}
 
 				//esli nado vernem focus

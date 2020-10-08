@@ -30,7 +30,7 @@ public:
 		HWND           hWndRatioL;	//okno otobrajeniya sjatiya 1 (grafic)
 		HWND           hWndRatioR;	//okno otobrajeniya sjatiya 2 (grafic)
 		HWND           hWndRichEdit;//okno dlya vivoda kommentariya esli nado
-		LONG           REWndProc;	//obrabotchik okonnih soobsheniya dlya hWndRichEdit
+		LONG_PTR       REWndProc;	//obrabotchik okonnih soobsheniya dlya hWndRichEdit
 		MListParametrs ListParam;	//spisok parametrov arhiva
 	} TabInfo;
 
@@ -45,19 +45,19 @@ public:
 	//dannie dlya zakladki Comment
 	typedef struct _TabComment
 	{
-		BOOL CREATED;		//TRUE - zakladka sozdana, FALSE - net
-		HWND hWndComment;	//okno dlya kommentariya arhiva
-		HWND hWndRichEdit;	//v nem vivod
-		LONG REWndProc;		//obrabotchik okonnih soobsheniya dlya hWndRichEdit
+		BOOL     CREATED;		//TRUE - zakladka sozdana, FALSE - net
+		HWND     hWndComment;	//okno dlya kommentariya arhiva
+		HWND     hWndRichEdit;	//v nem vivod
+		LONG_PTR REWndProc;		//obrabotchik okonnih soobsheniya dlya hWndRichEdit
 	} TabComment;
 
 	//dannie dlya zakladki About
 	typedef struct _TabAbout
 	{
-		BOOL CREATED;		//TRUE - zakladka sozdana, FALSE - net
-		HWND hWndAbout;		//okno dlya informacii o programme
-		HWND hWndRichEdit;	//v nem vivod
-		LONG REWndProc;		//obrabotchik okonnih soobsheniya dlya hWndRichEdit
+		BOOL     CREATED;		//TRUE - zakladka sozdana, FALSE - net
+		HWND     hWndAbout;		//okno dlya informacii o programme
+		HWND     hWndRichEdit;	//v nem vivod
+		LONG_PTR REWndProc;		//obrabotchik okonnih soobsheniya dlya hWndRichEdit
 	} TabAbout;
 
 	//OB'EKTI
