@@ -12,5 +12,5 @@ EXPORTS
 	ListSendCommand
 ;	ListPrint
 ;	ListNotificationReceived
-;	ListSetDefaultParams
+	ListSetDefaultParams
 ;	ListGetPreviewBitmap

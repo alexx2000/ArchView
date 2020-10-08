@@ -10,12 +10,15 @@
 #include "GlobalParametr.h"
 #include "MIniFile.h"
 #include "MListStrStr.h"
+#include <Richedit.h>
+#include <tchar.h>
 #include <time.h>
 
 //#define _MY_DEBUG
 
 //HINSTANCE of this DLL
 HINSTANCE hInst;
+TCHAR* RichEditClass;
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -807,7 +810,7 @@ int CreateTabInfo(HWND hwndParent)
 		DWORD WindowStyle = 0;
 		if (gp->ModeWordWrap) WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | WS_TABSTOP;
 		else WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_TABSTOP;
-		gp->tInfo.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+		gp->tInfo.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 			gp->CmtInfoLeft, gp->CmtInfoTop,
 			gp->CmtInfoWidth, gp->CmtInfoHeight,
 			gp->tInfo.hWndInfo, NULL, hInst, NULL);
@@ -1192,7 +1195,7 @@ int CreateTabComment(HWND hwndParent)
 	DWORD WindowStyle = 0;
 	if (gp->ModeWordWrap) WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | WS_TABSTOP;
 	else WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_TABSTOP;
-	gp->tComment.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+	gp->tComment.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 		rcClient.left, rcClient.top,
 		rcClient.right - rcClient.left,
 		rcClient.bottom - rcClient.top,
@@ -1301,7 +1304,7 @@ int CreateTabAbout(HWND hwndParent)
 		hwndParent, NULL, hInst, NULL);
 
     ::GetClientRect(gp->tAbout.hWndAbout, &rcClient);
-	gp->tAbout.hWndRichEdit = ::CreateWindow("RichEdit", "",
+	gp->tAbout.hWndRichEdit = ::CreateWindow(RichEditClass, "",
 		WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | WS_TABSTOP,
 		rcClient.left, rcClient.top,
 		rcClient.right - rcClient.left,
@@ -2457,7 +2460,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 
 				::GetClientRect(gp->tComment.hWndComment, &rcClient);
 				WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | WS_TABSTOP;
-				gp->tComment.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+				gp->tComment.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 					rcClient.left, rcClient.top,
 					rcClient.right - rcClient.left,
 					rcClient.bottom - rcClient.top,
@@ -2491,7 +2494,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				gp->tInfo.hWndRichEdit = 0;
 
 				WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | WS_TABSTOP;
-				gp->tInfo.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+				gp->tInfo.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 					gp->CmtInfoLeft, gp->CmtInfoTop,
 					gp->CmtInfoWidth, gp->CmtInfoHeight,
 					gp->tInfo.hWndInfo, NULL, hInst, NULL);
@@ -2531,7 +2534,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 
 				::GetClientRect(gp->tComment.hWndComment, &rcClient);
 				WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_TABSTOP;
-				gp->tComment.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+				gp->tComment.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 					rcClient.left, rcClient.top,
 					rcClient.right - rcClient.left,
 					rcClient.bottom - rcClient.top,
@@ -2565,7 +2568,7 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 				gp->tInfo.hWndRichEdit = 0;
 
 				WindowStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL | ES_READONLY | ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_TABSTOP;
-				gp->tInfo.hWndRichEdit = ::CreateWindow("RichEdit", "", 	WindowStyle,
+				gp->tInfo.hWndRichEdit = ::CreateWindow(RichEditClass, "", 	WindowStyle,
 					gp->CmtInfoLeft, gp->CmtInfoTop,
 					gp->CmtInfoWidth, gp->CmtInfoHeight,
 					gp->tInfo.hWndInfo, NULL, hInst, NULL);
@@ -2589,5 +2592,25 @@ int __stdcall ListSendCommand(HWND ListWin, int Command, int Parameter)
 	default:
 		return LISTPLUGIN_ERROR;
 		break;
+	}
+}
+
+void __stdcall ListSetDefaultParams(ListDefaultParamStruct*)
+{
+	HMODULE hLib;
+
+	// Rich Edit Version 2.0/3.0
+	if ((hLib = LoadLibrary(_T("riched20.dll"))))
+	{
+		RichEditClass = RICHEDIT_CLASS;
+	}
+	// Rich Edit Version 1.0
+	else if ((hLib = LoadLibrary(_T("riched32.dll"))))
+	{
+		RichEditClass = RICHEDIT_CLASS10A;
+	}
+	else
+	{
+		RichEditClass = _T("");
 	}
 }
