@@ -321,52 +321,20 @@ ReadArc(LPVOID lpBuffer, UINT uBytes)
 int TArchive::
 SeekArc(LONG loffset, PLONG hoffset, DWORD MoveMethod)
 {
-	//esli smeshenie ot tekushey pozicii v fayle to
-	//smeshenie ot nachala, t.k. pri bol'shih faylah inache ne rabotaet
-	if (MoveMethod == FILE_CURRENT)
-	{
-		MoveMethod   = FILE_BEGIN;
-		LARGE_INTEGER Offset;
-		LARGE_INTEGER Pointer;
-		Offset.QuadPart  =  0;
-		Pointer.QuadPart = GetArcPointer();
-		if (hoffset == NULL)
-			Offset.QuadPart = Pointer.QuadPart + loffset;
-		else
-		{
-			Offset.LowPart  = loffset;
-			Offset.HighPart = *hoffset;
-			Offset.QuadPart = Pointer.QuadPart + Offset.QuadPart;
-		}
-		Offset.LowPart = ::SetFilePointer(m_h, Offset.LowPart, &Offset.HighPart, MoveMethod);
-		if (Offset.LowPart == 0xFFFFFFFF && GetLastError() != NO_ERROR)
-			return TERROR_SEEK_FILE;
-		else
-			return TMESSAGE_OK;
-	}
-	//dlya ostavshihsya smesheniy ot nachala i ot konca fayla
+	LARGE_INTEGER Offset;
+
+	if (hoffset == NULL)
+		Offset.QuadPart = loffset;
 	else
 	{
-		DWORD tptr = 0;
-		//propustit' nenujnoe dlinnoe smeshenie
-		if (hoffset != NULL)
-		{
-			tptr = ::SetFilePointer(m_h, loffset, hoffset, MoveMethod);
-			if (tptr == 0xFFFFFFFF && GetLastError() != NO_ERROR )
-				return TERROR_SEEK_FILE;
-			else
-				return TMESSAGE_OK;
-		}
-		//propustit' nenujnoe korotkoe smeshenie
-		else
-		{
-			tptr = ::SetFilePointer(m_h, loffset, NULL, MoveMethod);
-			if (tptr == 0xFFFFFFFF)
-				return TERROR_SEEK_FILE;
-			else
-				return TMESSAGE_OK;
-		}
+		Offset.LowPart = loffset;
+		Offset.HighPart = *hoffset;
 	}
+	Offset.LowPart = ::SetFilePointer(m_h, Offset.LowPart, &Offset.HighPart, MoveMethod);
+	if (Offset.LowPart == 0xFFFFFFFF && GetLastError() != NO_ERROR)
+		return TERROR_SEEK_FILE;
+	else
+		return TMESSAGE_OK;
 }
 
 //opredelit' smeshenie v arhive
