@@ -34,6 +34,27 @@ typedef struct __WCXtHeaderData
 	int   CmtState;
 } tHeaderData;
 
+typedef struct {
+	char ArcName[1024];
+	char FileName[1024];
+	int Flags;
+	unsigned int PackSize;
+	unsigned int PackSizeHigh;
+	unsigned int UnpSize;
+	unsigned int UnpSizeHigh;
+	int HostOS;
+	int FileCRC;
+	int FileTime;
+	int UnpVer;
+	int Method;
+	int FileAttr;
+	char* CmtBuf;
+	int CmtBufSize;
+	int CmtSize;
+	int CmtState;
+	char Reserved[1024];
+} tHeaderDataEx;
+
 typedef struct __WCXtOpenArchiveData
 {
 	char* ArcName;
@@ -51,6 +72,7 @@ typedef struct __WCXtOpenArchiveData
 
 typedef HANDLE (__stdcall *WCXOPENARCHIVE)          (tOpenArchiveData*);
 typedef int    (__stdcall *WCXREADHEADER)           (HANDLE, tHeaderData*);
+typedef int    (__stdcall* WCXREADHEADEREX)         (HANDLE, tHeaderDataEx*);
 typedef int    (__stdcall *WCXPROCESSFILE)          (HANDLE, int, char*, char*);
 typedef int    (__stdcall *WCXCLOSEARCHIVE)         (HANDLE);
 typedef BOOL   (__stdcall *WCXCANYOUHANDLETHISFILE) (char*);

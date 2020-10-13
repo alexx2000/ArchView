@@ -16,12 +16,14 @@ class TWcxPluginTC: public TArchive
 private:
 	//strukturi dlya chteniya arhiva
 	tHeaderData      m_HeaderData;		//zagolovok fayla/papki
+	tHeaderDataEx    m_HeaderDataEx;	//zagolovok fayla/papki
 	tOpenArchiveData m_OpenArchiveData;	//zagolovok arhiva
 
 	HMODULE LoadPlugin(LPCSTR lpLibFileName);
 
 	//vnutrennie funkcii
-	int      AnalyzeFileHead(tHeaderData&, int&);	//obrabotka zagolovka fayla/papki
+	int      AnalyzeFileHead(tHeaderData&, int&);		//obrabotka zagolovka fayla/papki
+	int      AnalyzeFileHeadEx(tHeaderDataEx&, int&);	//obrabotka zagolovka fayla/papki
 
 	LONGLONG GetArcPointer  (HANDLE);				//opredelit' smeshenie v arhive
 

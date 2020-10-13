@@ -119,6 +119,43 @@ AnalyzeFileHead(tHeaderData& head, int& BlockType)
 	return TMESSAGE_OK;
 }
 
+//obrabotka zagolovka fayla/papki
+//head - struktura zagolovka fayla/papki
+//return
+//	BlockType - tip bloka
+//		0 - neizvestno
+//		1 - fayl
+//		2 - papka
+//	MSG - resul'tat vipolneniya
+int TWcxPluginTC::
+AnalyzeFileHeadEx(tHeaderDataEx& head, int& BlockType)
+{
+	//est' li komentariy fayla?
+	if (head.CmtSize) m_FileComment = TRUE;
+
+	//v arhive eshe 1 fayl ili 1 papka
+	if (head.FileAttr & 0x10)
+	{
+		BlockType = 2;
+		m_NumberFolders++;
+	}
+	else
+	{
+		BlockType = 1;
+		m_NumberFiles++;
+	}
+
+	double UnpVer = 0;
+	m_PackSizeFiles += TakeLong(head.PackSize, head.PackSizeHigh);
+	m_UnpackSizeFiles += TakeLong(head.UnpSize, head.UnpSizeHigh);
+	if (m_MethodPack < head.Method) m_MethodPack = head.Method;
+	if (m_HostOS < head.HostOS)     m_HostOS = head.HostOS;
+	UnpVer = (double)head.UnpVer / 10.0;
+	if (m_UnpackVersion < UnpVer) m_UnpackVersion = UnpVer;
+
+	return TMESSAGE_OK;
+}
+
 //opredelit' smeshenie v arhive
 LONGLONG TWcxPluginTC::
 GetArcPointer(HANDLE hand)
@@ -179,6 +216,7 @@ TestFile(char* path)
 		HINSTANCE               DllModule               = 0;
 		WCXOPENARCHIVE          OpenArchive             = 0;
 		WCXREADHEADER           ReadHeader              = 0;
+		WCXREADHEADEREX         ReadHeaderEx            = 0;
 		WCXPROCESSFILE          ProcessFile             = 0;
 		WCXCLOSEARCHIVE         CloseArchive            = 0;
 		WCXCANYOUHANDLETHISFILE CanYouHandleThisFile    = 0;
@@ -194,6 +232,7 @@ TestFile(char* path)
 			//nahodim nujnie funkcii
 			OpenArchive          = (WCXOPENARCHIVE)         ::GetProcAddress(DllModule, "OpenArchive");
 			ReadHeader           = (WCXREADHEADER)          ::GetProcAddress(DllModule, "ReadHeader");
+			ReadHeaderEx         = (WCXREADHEADEREX)        ::GetProcAddress(DllModule, "ReadHeaderEx");
 			ProcessFile          = (WCXPROCESSFILE)         ::GetProcAddress(DllModule, "ProcessFile");
 			CloseArchive         = (WCXCLOSEARCHIVE)        ::GetProcAddress(DllModule, "CloseArchive");
 			CanYouHandleThisFile = (WCXCANYOUHANDLETHISFILE)::GetProcAddress(DllModule, "CanYouHandleThisFile");
@@ -256,22 +295,22 @@ TestFile(char* path)
 					//vsegda vozvrashayut pri proverke 0
 					//(ne deleyut proverku formata dlya OpenArchive())
 					//potom sdelaem propusk t.k. na vsyakiy sluchay
-					m_HeaderData.Flags      = 0;
-					m_HeaderData.PackSize   = 0;
-					m_HeaderData.UnpSize    = 0;
-					m_HeaderData.HostOS     = -1;	//kak v TArchive::InitialParametrs() class TArchive
-					m_HeaderData.FileCRC    = 0;
-					m_HeaderData.FileTime   = 0;
-					m_HeaderData.UnpVer     = 0;
-					m_HeaderData.Method     = -1;	//kak v TArchive::InitialParametrs() class TArchive
-					m_HeaderData.FileAttr   = 0;
-					m_HeaderData.CmtBuf     = 0;
-					m_HeaderData.CmtBufSize = 0;
-					m_HeaderData.CmtSize    = 0;
-					m_HeaderData.CmtState   = 0;
-
+					int Result;
 					//vibrat' fayl/papku
-					int Result = ReadHeader(hArcData, &m_HeaderData);
+					if (ReadHeaderEx)
+					{ 
+						memset(&m_HeaderDataEx, 0, sizeof(tHeaderDataEx));
+						m_HeaderDataEx.HostOS = -1;
+						m_HeaderDataEx.Method = -1;
+						Result = ReadHeaderEx(hArcData, &m_HeaderDataEx);
+					}
+					else
+					{
+						memset(&m_HeaderData, 0, sizeof(tHeaderData));
+						m_HeaderData.HostOS = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						m_HeaderData.Method = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						Result = ReadHeader(hArcData, &m_HeaderData);
+					}
 					if (!Result)
 					{
 						//propustit' fayl/papku
@@ -354,6 +393,7 @@ AnalyzeInfoOfArc(char* path)
 		HINSTANCE        DllModule               = 0;
 		WCXOPENARCHIVE   OpenArchive             = 0;
 		WCXREADHEADER    ReadHeader              = 0;
+		WCXREADHEADEREX  ReadHeaderEx            = 0;
 		WCXPROCESSFILE   ProcessFile             = 0;
 		WCXCLOSEARCHIVE  CloseArchive            = 0;
 		char             pWcxPluginDll[MAX_PATH] = {0};
@@ -368,6 +408,7 @@ AnalyzeInfoOfArc(char* path)
 			//nahodim nujnie funkcii
 			OpenArchive  = (WCXOPENARCHIVE) ::GetProcAddress(DllModule, "OpenArchive");
 			ReadHeader   = (WCXREADHEADER)  ::GetProcAddress(DllModule, "ReadHeader");
+			ReadHeaderEx = (WCXREADHEADEREX)::GetProcAddress(DllModule, "ReadHeaderEx");
 			ProcessFile  = (WCXPROCESSFILE) ::GetProcAddress(DllModule, "ProcessFile");
 			CloseArchive = (WCXCLOSEARCHIVE)::GetProcAddress(DllModule, "CloseArchive");
 			if ((OpenArchive) && (ReadHeader) && (ProcessFile) && (CloseArchive))
@@ -451,26 +492,32 @@ AnalyzeInfoOfArc(char* path)
 						}
 					}
 
-					m_HeaderData.Flags      = 0;
-					m_HeaderData.PackSize   = 0;
-					m_HeaderData.UnpSize    = 0;
-					m_HeaderData.HostOS     = -1;	//kak v TArchive::InitialParametrs() class TArchive
-					m_HeaderData.FileCRC    = 0;
-					m_HeaderData.FileTime   = 0;
-					m_HeaderData.UnpVer     = 0;
-					m_HeaderData.Method     = -1;	//kak v TArchive::InitialParametrs() class TArchive
-					m_HeaderData.FileAttr   = 0;
-					m_HeaderData.CmtBuf     = 0;
-					m_HeaderData.CmtBufSize = 0;
-					m_HeaderData.CmtSize    = 0;
-					m_HeaderData.CmtState   = 0;
-
 					//vibrat' fayl/papku
-					Result = ReadHeader(hArcData, &m_HeaderData);
+					if (ReadHeaderEx)
+					{
+						memset(&m_HeaderDataEx, 0, sizeof(tHeaderDataEx));
+						m_HeaderDataEx.HostOS = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						m_HeaderDataEx.Method = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						Result = ReadHeaderEx(hArcData, &m_HeaderDataEx);
+					}
+					else
+					{
+						memset(&m_HeaderData, 0, sizeof(tHeaderData));
+						m_HeaderData.HostOS = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						m_HeaderData.Method = -1;	//kak v TArchive::InitialParametrs() class TArchive
+						Result = ReadHeader(hArcData, &m_HeaderData);
+					}
 					if(!Result)
 					{
 						m_BlockType = 0;
-						MSG = AnalyzeFileHead(m_HeaderData, m_BlockType);
+						if (ReadHeaderEx)
+						{
+							MSG = AnalyzeFileHeadEx(m_HeaderDataEx, m_BlockType);
+						}
+						else
+						{
+							MSG = AnalyzeFileHead(m_HeaderData, m_BlockType);
+						}
 						if (m_DetailLF == 2)
 						{
 							switch (m_BlockType)
