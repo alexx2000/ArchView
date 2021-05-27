@@ -9,8 +9,8 @@
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,2,4
- PRODUCTVERSION 0,9,2,4
+ FILEVERSION 0,9,2,5
+ PRODUCTVERSION 0,9,2,5
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -26,9 +26,9 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "ArchView - Total Commander Lister Plugin"
-            VALUE "FileVersion", "0.9.2.4"
+            VALUE "FileVersion", "0.9.2.5"
             VALUE "ProductName", "ArchView - Total Commander Lister Plugin"
-            VALUE "ProductVersion", "0.9.2.4"
+            VALUE "ProductVersion", "0.9.2.5"
         END
     END
     BLOCK "VarFileInfo"

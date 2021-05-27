@@ -1325,12 +1325,15 @@ int CreateTabAbout(HWND hwndParent)
 	int   len                = 0;
 	char* StrMsg             = 0;
 	char  NamePlugin       [] = "ArchView ";
-	char  VersionPlugin    [] = " 0.9.2.4 (13/10/2020)";
+	char  VersionPlugin    [] = " 0.9.2.5 (27/05/2021)";
 	char  NameProgram      [] = " Total Commander";
-	char  NumberProgram    [] = " 5.51 ";
+	char  NumberProgram    [] = " 9.51 ";
 	char  ErgoSite         [] = " http:\\\\wincmd.ru";
 	char  Copyright        [] = "Copyright (c) 2004-2006 Hudyakov Aleksey. ";
 	char  MyEMail          [] = "Parcan@mail.ru";
+	char  OriginalAuthor   [] = "Original author";
+	char  CopyrightNew     [] = "Copyright (c) 2020-2021 Alexander Koblov.";
+	char  MyEMailNew       [] = "alexx2000@mail.ru";
 	char  Dash             [] = " - ";
 	char  Colon            [] = ": ";
 	char  Comma            [] = ", ";
@@ -1509,6 +1512,16 @@ int CreateTabAbout(HWND hwndParent)
 		+	strlen(NewLine)
 		+	strlen(sLanguageTabAbout.EMail)
 		+	strlen(Colon)
+		+	strlen(MyEMailNew)
+		+	strlen(NewLine)
+		+	strlen(CopyrightNew)
+		+	strlen(NewLine)
+		+	strlen(NewLine)
+		+	strlen(OriginalAuthor)
+		+	strlen(Colon)
+		+	strlen(NewLine)
+		+	strlen(sLanguageTabAbout.EMail)
+		+	strlen(Colon)
 		+	strlen(MyEMail)
 		+	strlen(NewLine)
 		+	strlen(Copyright)
@@ -1683,6 +1696,16 @@ int CreateTabAbout(HWND hwndParent)
 	strcat(StrMsg, NewLine);
 	strcat(StrMsg, sLanguageTabAbout.SendComment);
 	strcat(StrMsg, Dot);
+	strcat(StrMsg, NewLine);
+	strcat(StrMsg, sLanguageTabAbout.EMail);
+	strcat(StrMsg, Colon);
+	strcat(StrMsg, MyEMailNew);
+	strcat(StrMsg, NewLine);
+	strcat(StrMsg, CopyrightNew);
+	strcat(StrMsg, NewLine);
+	strcat(StrMsg, NewLine);
+	strcat(StrMsg, OriginalAuthor);
+	strcat(StrMsg, Colon);
 	strcat(StrMsg, NewLine);
 	strcat(StrMsg, sLanguageTabAbout.EMail);
 	strcat(StrMsg, Colon);
