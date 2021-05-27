@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "TArchive.h"
+#include "UnRar.h"
 
 #ifndef _TRAR_CLASS_H
 #define _TRAR_CLASS_H
@@ -14,6 +15,10 @@
 class TRar: public TArchive
 {
 private:
+	int						m_ver;
+	RARHeaderDataEx			m_HeaderDataEx;
+	RAROpenArchiveDataEx	m_OpenArchiveData;
+
 	//Zagolovok lyubogo bloka
 	typedef struct __RAR_BLOCK_HEAD
 	{
@@ -64,6 +69,8 @@ private:
 	RAR_BLOCK_HEAD m_BLOCK_HEAD;//zagolovok lyubogo bloka
 	RAR_FILE_HEAD  m_FILE_HEAD;	//FILE_HEAD bez BLOCK_HEAD i ? koncevih
 
+	HMODULE LoadPlugin(LPCSTR lpLibFileName);
+
 	//vnutrennie funkcii
 	int  AnalyzeMarkHead   (RAR_BLOCK_HEAD&);		//proverka markera fayla MARK_HEAD
 	int  AnalyzeMainHead   (RAR_BLOCK_HEAD&);		//obrabotka zagolonka arhiva MAIN_HEAD
@@ -81,6 +88,13 @@ private:
 
 	//prochitat' kommentariy arhiva
 	int ReadComment();
+
+	int TestFile4(char*);	//fayl yavlyaetsya arhivom RAR
+	int AnalyzeInfoOfArc4(char*);	//opredelit' parametri (info) arhiva
+
+	int AnalyzeFileHeadEx(RARHeaderDataEx&, int&);
+	int TestFile5(char*);	//fayl yavlyaetsya arhivom RAR
+	int AnalyzeInfoOfArc5(char*,bool);	//opredelit' parametri (info) arhiva
 
 public:
 	TRar(DataForArchive& dfa, LanguageMessages& langmsg, LanguageResults& langres, char* namearch = "RAR"): TArchive(dfa, langmsg, langres, namearch) {;}

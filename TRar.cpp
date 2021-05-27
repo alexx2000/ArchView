@@ -2,11 +2,39 @@
 
 #include "stdafx.h"
 #include "TRar.h"
-#include "UnRar.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //FUNCTIONS PRIVATE
 /////////////////////////////////////////////////////////////////////////////
+
+HMODULE TRar::
+LoadPlugin(LPCSTR lpLibFileName)
+{
+#ifdef _M_AMD64
+	char *name, *ext;
+	char lpLibFilePath64[MAX_PATH] = { 0 };
+	char lpLibFileName64[MAX_PATH] = { 0 };
+	strcpy_s(lpLibFilePath64, MAX_PATH, lpLibFileName);
+
+	if ((name = (char*)strrchr(lpLibFilePath64, '\\')))
+	{
+		if (strstr(name + 1, "64") == NULL)
+		{
+			if ((ext = (char*)strrchr(lpLibFilePath64, '.')))
+			{
+				*ext++ = '\0';
+				*name++ = '\0';
+				snprintf(lpLibFileName64, sizeof(lpLibFileName64), "%s\\%s%s.%s", lpLibFilePath64, name, "64", ext);
+				if (GetFileAttributes(lpLibFileName64) != INVALID_FILE_ATTRIBUTES)
+				{
+					return LoadLibrary(lpLibFileName64);
+				}
+			}
+		}
+	}
+#endif
+	return LoadLibrary(lpLibFileName);
+}
 
 //prochitat' kommentariy arhiva
 //return
@@ -14,69 +42,7 @@
 int TRar::
 ReadComment()
 {
-	//ispol'zuyutsya storonnie plagini na vsyakiy sluchay
-	try
-	{
-		//chitat' kommentariy s pomoch'yu unrar.dll
-		HINSTANCE        DllModule        = 0;
-		RAROPENARCHIVEEX RAROpenArchiveEx = 0;
-		RARCLOSEARCHIVE  RARCloseArchive  = 0;
-		char             pUnRarDll[MAX_PATH] = {0};
-
-		//chtob put' bil real'nim bez vremennih okrujeniya
-		if(!::ExpandEnvironmentStrings(m_pUnArchiveDll, pUnRarDll, MAX_PATH))
-			strncpy(pUnRarDll, m_pUnArchiveDll, MAX_PATH);
-
-		//zagrujaem DLL
-		if (DllModule = ::LoadLibrary(pUnRarDll))
-		{
-			//nahodim nujnie funkcii
-			RAROpenArchiveEx = (RAROPENARCHIVEEX)::GetProcAddress(DllModule, "RAROpenArchiveEx");
-			RARCloseArchive  = (RARCLOSEARCHIVE) ::GetProcAddress(DllModule, "RARCloseArchive");
-			if ((RAROpenArchiveEx) && (RARCloseArchive))
-			{
-				//proverka i predustanovka ukazatelya
-				if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
-				m_pTextComment = new char[RAR_MAX_LEN_COMMENT+1];
-				m_pTextComment[0]                   = '\0';
-				m_pTextComment[RAR_MAX_LEN_COMMENT] = '\0';
-
-				HANDLE               hArcData        = 0;
-				RAROpenArchiveDataEx OpenArchiveData = {0};
-
-				OpenArchiveData.ArcName    = m_pTargetFile;
-				OpenArchiveData.CmtBuf     = m_pTextComment;
-				OpenArchiveData.CmtBufSize = RAR_MAX_LEN_COMMENT;
-				OpenArchiveData.OpenMode   = RAR_OM_LIST;
-
-				hArcData = RAROpenArchiveEx(&OpenArchiveData);
-				if (hArcData) { RARCloseArchive(hArcData); hArcData = 0; }
-
-				//proverka resul'tata
-				if (OpenArchiveData.OpenResult)
-				{
-					if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
-					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
-					return TERROR_DLL;
-				}
-				else
-				{
-					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
-					return TMESSAGE_OK;
-				}
-			}
-			else
-			{
-				if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
-				return TERROR_DLL;
-			}
-		}
-		else return TERROR_NOT_DLL;
-	}
-	catch (...)
-	{
-		return TERROR_DLL;
-	}
+	return AnalyzeInfoOfArc5(m_pTargetFile, true);
 }
 
 //opredelenie nomera toma dlya mnogotomnogo arhiva
@@ -620,7 +586,7 @@ UnknownBlock(RAR_BLOCK_HEAD& head)
 //	SUDDEN_END_FILE - vnezapniy konec fayla
 //	ERROR_FORMAT    - oshibka formata fayla
 int TRar::
-TestFile(char* path)
+TestFile4(char* path)
 {
 	//obnulenie dannih
 	InitialParametrs();
@@ -730,7 +696,7 @@ TestFile(char* path)
 //	SUDDEN_END_FILE   - vnezapniy konec fayla
 //	ERROR_FORMAT      - oshibka formata fayla
 int TRar::
-AnalyzeInfoOfArc(char* path)
+AnalyzeInfoOfArc4(char* path)
 {
 	//otkrit' fayl dlya chteniya
 	m_h = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, 
@@ -914,5 +880,369 @@ AnalyzeInfoOfArc(char* path)
 							{ if (m_h) { ::CloseHandle(m_h); m_h = 0; } return MSG; }
 						break;
 		}
+	}
+}
+
+int TRar::
+AnalyzeFileHeadEx(RARHeaderDataEx& head, int& BlockType)
+{
+	//est' li komentariy fayla?
+	if (head.CmtSize) m_FileComment = TRUE;
+
+	//v arhive eshe 1 fayl ili 1 papka
+	if (head.FileAttr & FILE_ATTRIBUTE_DIRECTORY)
+	{
+		BlockType = 2;
+		m_NumberFolders++;
+	}
+	else
+	{
+		BlockType = 1;
+		m_NumberFiles++;
+	}
+
+	double UnpVer = 0;
+	m_PackSizeFiles += TakeLong(head.PackSize, head.PackSizeHigh);
+	m_UnpackSizeFiles += TakeLong(head.UnpSize, head.UnpSizeHigh);
+	if (m_MethodPack < (short)head.Method) m_MethodPack = head.Method;
+	if (m_HostOS < (short)head.HostOS)     m_HostOS = head.HostOS;
+	UnpVer = (double)head.UnpVer / 10.0;
+	if (m_UnpackVersion < UnpVer) m_UnpackVersion = UnpVer;
+	if (m_DictionarySize < head.DictSize) m_DictionarySize = head.DictSize;
+	if (head.Flags & RHDF_ENCRYPTED) m_Password = TRUE;	
+
+	return TMESSAGE_OK;
+}
+
+int TRar::
+TestFile5(char* path)
+{
+	//ispol'zuyutsya storonnie plagini na vsyakiy sluchay
+	try
+	{
+		//obnulenie dannih
+		InitialParametrs();
+
+		//otkrit' fayl dlya chteniya
+		m_h = CreateFile(path, GENERIC_READ, FILE_SHARE_READ,
+			NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (m_h == INVALID_HANDLE_VALUE)
+		{
+			if (m_h) { ::CloseHandle(m_h); m_h = 0; } return TERROR_OPEN_FILE;
+		}
+
+		//mojet eto SFX arhiv (nado li proveryat')
+		WORD EXECUTABLE_ID = 0;
+		MSG = ReadArc(&EXECUTABLE_ID, sizeof(EXECUTABLE_ID));
+		if (m_h) { ::CloseHandle(m_h); m_h = 0; }
+		if (MSG != TMESSAGE_OK) return MSG;
+		if (EXECUTABLE_ID == 'ZM')
+		{
+			m_SfxModule = 1;
+			if (!m_CheckSFX) return TERROR_FORMAT;
+		}
+
+		//teper' dll
+		HINSTANCE               DllModule = 0;
+		RAROPENARCHIVEEX        OpenArchive = 0;
+		RARREADHEADEREX         ReadHeaderEx = 0;
+		RARPROCESSFILEW         ProcessFile = 0;
+		RARCLOSEARCHIVE         CloseArchive = 0;
+		char                    pUnRarDll[MAX_PATH] = { 0 };
+
+		//chtob put' bil real'nim bez vremennih okrujeniya
+		if (!::ExpandEnvironmentStrings(m_pUnArchiveDll, pUnRarDll, MAX_PATH))
+			strncpy(pUnRarDll, m_pUnArchiveDll, MAX_PATH);
+
+		//zagrujaem DLL
+		if ((DllModule = LoadPlugin(pUnRarDll)))
+		{
+			//nahodim nujnie funkcii
+			OpenArchive = (RAROPENARCHIVEEX)::GetProcAddress(DllModule, "RAROpenArchiveEx");
+			ReadHeaderEx = (RARREADHEADEREX) ::GetProcAddress(DllModule, "RARReadHeaderEx");
+			ProcessFile = (RARPROCESSFILEW) ::GetProcAddress(DllModule, "RARProcessFileW");
+			CloseArchive = (RARCLOSEARCHIVE) ::GetProcAddress(DllModule, "RARCloseArchive");
+
+			if ((OpenArchive) && (ReadHeaderEx) && (ProcessFile) && (CloseArchive))
+			{
+				HANDLE hArcData = 0;
+
+				memset(&m_OpenArchiveData, 0, sizeof(RAROpenArchiveDataEx));
+				m_OpenArchiveData.ArcName = path;
+				m_OpenArchiveData.OpenMode = RAR_OM_LIST;
+
+				hArcData = OpenArchive(&m_OpenArchiveData);
+				if (!hArcData)
+				{
+					if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+					return TERROR_FORMAT;
+				}
+				//proverka resul'tata
+				if (!m_OpenArchiveData.OpenResult)
+				{
+					if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+					if (m_DetailLF == 2)
+						m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TMESSAGE_OK);
+					return TMESSAGE_OK;
+				}
+				if (m_OpenArchiveData.OpenResult == ERAR_UNKNOWN_FORMAT)
+				{
+					if (m_DetailLF == 2)
+						m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_FORMAT);
+					if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+					return TERROR_FORMAT;
+				}
+				else
+				{
+					if (m_DetailLF == 2)
+						m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_DLL);
+					if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+					return TERROR_DLL;
+				}
+			}
+			else
+			{
+				if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+				if (m_DetailLF == 2)
+					m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_DLL);
+				return TERROR_DLL;
+			}
+		}
+		else return TERROR_NOT_DLL;
+	}
+	catch (...)
+	{
+		if (m_DetailLF == 2)
+			m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_DLL);
+		return TERROR_DLL;
+	}
+}
+
+int TRar::
+AnalyzeInfoOfArc5(char* path, bool comment_only)
+{
+	//ispol'zuyutsya storonnie plagini na vsyakiy sluchay
+	try
+	{
+		if (!comment_only)
+		{
+			//otkrit' fayl dlya chteniya
+			m_h = CreateFile(path, GENERIC_READ, FILE_SHARE_READ,
+				NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			if (m_h == INVALID_HANDLE_VALUE)
+			{
+				if (m_h) { ::CloseHandle(m_h); m_h = 0; } return TERROR_OPEN_FILE;
+			}
+
+			//razmer fayla arhiva
+			m_ArchiveSize = GetArchSize();
+			if (m_h) { ::CloseHandle(m_h); m_h = 0; }
+		}
+
+		//teper' dll
+		HINSTANCE        DllModule = 0;
+		RAROPENARCHIVEEX OpenArchive = 0;
+		RARREADHEADEREX  ReadHeaderEx = 0;
+		RARPROCESSFILEW  ProcessFile = 0;
+		RARCLOSEARCHIVE  CloseArchive = 0;
+		char             pUnRarDll[MAX_PATH] = { 0 };
+
+		//chtob put' bil real'nim bez vremennih okrujeniya
+		if (!::ExpandEnvironmentStrings(m_pUnArchiveDll, pUnRarDll, MAX_PATH))
+			strncpy(pUnRarDll, m_pUnArchiveDll, MAX_PATH);
+
+		//zagrujaem DLL
+		if ((DllModule = LoadPlugin(pUnRarDll)))
+		{
+			//nahodim nujnie funkcii
+			OpenArchive = (RAROPENARCHIVEEX)::GetProcAddress(DllModule, "RAROpenArchiveEx");
+			ReadHeaderEx = (RARREADHEADEREX) ::GetProcAddress(DllModule, "RARReadHeaderEx");
+			ProcessFile = (RARPROCESSFILEW) ::GetProcAddress(DllModule, "RARProcessFileW");
+			CloseArchive = (RARCLOSEARCHIVE) ::GetProcAddress(DllModule, "RARCloseArchive");
+			if ((OpenArchive) && (ReadHeaderEx) && (ProcessFile) && (CloseArchive))
+			{
+				//proverka i predustanovka ukazatelya
+				if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
+				m_pTextComment = new char[RAR_MAX_LEN_COMMENT + 1];
+				m_pTextComment[0] = '\0';
+				m_pTextComment[RAR_MAX_LEN_COMMENT] = '\0';
+
+				HANDLE hArcData = 0;
+
+				memset(&m_OpenArchiveData, 0, sizeof(RAROpenArchiveDataEx));
+				m_OpenArchiveData.ArcName = path;
+				m_OpenArchiveData.OpenMode = RAR_OM_LIST;
+				m_OpenArchiveData.CmtBuf = m_pTextComment;
+				m_OpenArchiveData.CmtBufSize = RAR_MAX_LEN_COMMENT;
+
+				//otkrit' arhiv
+				hArcData = OpenArchive(&m_OpenArchiveData);
+				if (!hArcData)
+				{
+					if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
+					if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+					if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+					return TERROR_FORMAT;
+				}
+				//proverka resul'tata
+				if (m_OpenArchiveData.OpenResult)
+				{
+					if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
+					if (m_OpenArchiveData.OpenResult == ERAR_UNKNOWN_FORMAT)
+					{
+						if (m_DetailLF == 2)
+							m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_FORMAT);
+						if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+						if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+						return TERROR_FORMAT;
+					}
+					else
+					{
+						if (m_DetailLF == 2)
+							m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_DLL);
+						if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+						if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+						return TERROR_DLL;
+					}
+				}
+				else
+				{
+					//kommentariy arhiva
+					if (m_OpenArchiveData.CmtSize) m_MainComment = TRUE;
+					else if (m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }
+					if (comment_only)
+					{
+						if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+						if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+						return TMESSAGE_OK;
+					}
+					if (m_DetailLF == 2)
+						m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TMESSAGE_OK);
+				}
+
+				m_Solid = (m_OpenArchiveData.Flags & ROADF_SOLID);
+				m_MultiArc = (m_OpenArchiveData.Flags & ROADF_VOLUME);
+				m_ArchiveLock = (m_OpenArchiveData.Flags & ROADF_LOCK);
+				m_MainComment = (m_OpenArchiveData.Flags & ROADF_COMMENT);
+				m_RecoveryRecord = (m_OpenArchiveData.Flags & ROADF_RECOVERY);
+				m_AuthVerification = (m_OpenArchiveData.Flags & ROADF_SIGNED);
+
+				//perebor faylov/papok
+				int Result = 0;
+				while (TRUE)
+				{
+					//esli rabochiy potok
+					if (m_BeginThread)
+					{
+						//net lis sobitiya zavershit' rabotu potoka
+						if (::WaitForSingleObject(m_hEventEnd, 0) == WAIT_OBJECT_0)
+						{
+							if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+							if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+							return TTERMINATE_THREAD;
+						}
+					}
+
+					//vibrat' fayl/papku
+					memset(&m_HeaderDataEx, 0, sizeof(RARHeaderDataEx));
+					m_HeaderDataEx.HostOS = -1;	//kak v TArchive::InitialParametrs() class TArchive
+					m_HeaderDataEx.Method = -1;	//kak v TArchive::InitialParametrs() class TArchive
+					Result = ReadHeaderEx(hArcData, &m_HeaderDataEx);
+
+					if (!Result)
+					{
+						m_BlockType = 0;
+						MSG = AnalyzeFileHeadEx(m_HeaderDataEx, m_BlockType);
+						if (m_DetailLF == 2)
+						{
+							switch (m_BlockType)
+							{
+							case 1: m_LogFile->WriteMessage(m_LangMsg.BlockFile, MSG);
+								break;
+							case 2: m_LogFile->WriteMessage(m_LangMsg.BlockFolder, MSG);
+								break;
+							default: m_LogFile->WriteMessage(m_LangMsg.BlockUnknown, MSG);
+								break;
+							}
+						}
+						//propustit' fayl/papku
+						Result = ProcessFile(hArcData, RAR_SKIP, NULL, NULL);
+						if (Result)
+						{
+							if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+							if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+							return TERROR_DLL;
+						}
+					}
+					else
+					{
+						//konec arhiva (E_END_ARCHIVE) normal'no
+						//oshibka CRC arhiva (E_BAD_ARCHIVE) propustim t.k. TC propuskaet
+						if ((Result == ERAR_END_ARCHIVE) || (Result == ERAR_BAD_ARCHIVE))
+						{
+							CountRatioArchiveSize();
+							CountRatioPackFileSize();
+							if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+							if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+							return TMESSAGE_OK;
+						}
+						//oshibka
+						else
+						{
+							if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+							if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+							return TERROR_DLL;
+						}
+					}
+				}
+
+				//zakrit' arhiv
+				if (hArcData) { CloseArchive(hArcData);   hArcData = 0; }
+				if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+				return MSG;
+			}
+			else
+			{
+				if (DllModule) { ::FreeLibrary(DllModule); DllModule = 0; }
+				if (m_DetailLF == 2)
+					m_LogFile->WriteMessage(m_LangMsg.SignatureArchive, TERROR_DLL);
+				return TERROR_DLL;
+			}
+		}
+		else return TERROR_NOT_DLL;
+	}
+	catch (...)
+	{
+		return TERROR_DLL;
+	}
+}
+
+int TRar::
+TestFile(char* path)
+{
+	if (TestFile4(path) != TMESSAGE_OK)
+	{
+		m_ver = 5;
+		return TestFile5(path);
+	}
+	m_ver = 4;
+	return TMESSAGE_OK;
+}
+
+int TRar::
+AnalyzeInfoOfArc(char* path)
+{
+	switch (m_ver)
+	{
+	case 4:
+		return AnalyzeInfoOfArc4(path);
+	case 5:
+		return AnalyzeInfoOfArc5(path, false);
+	default:
+		return TERROR_UNKNOWN;
 	}
 }
