@@ -199,7 +199,7 @@ DateTimeDosFormat(DWORD datetime, char* date, char* time)
 	month = (datetime >> 21) & 0x0F;
 	year = ((datetime >> 25) & 0x7F) + 1980;
 
-	char buf[4];
+	char buf[5];
 
 	//sostavlenie stroki dati
 	if (day < 10)
