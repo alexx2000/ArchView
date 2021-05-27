@@ -156,23 +156,6 @@ AnalyzeFileHeadEx(tHeaderDataEx& head, int& BlockType)
 	return TMESSAGE_OK;
 }
 
-//opredelit' smeshenie v arhive
-LONGLONG TWcxPluginTC::
-GetArcPointer(HANDLE hand)
-{
-	LARGE_INTEGER ull;
-	ull.LowPart  = 0;
-	ull.HighPart = 0;
-
-	ull.LowPart = ::SetFilePointer(hand, 0, &ull.HighPart, FILE_CURRENT);
-	if (ull.LowPart == 0xFFFFFFFF && GetLastError() != NO_ERROR)
-	{
-		ull.QuadPart = -1;
-	}
-
-	return ull.QuadPart;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 //FUNCTIONS PUBLIC
 /////////////////////////////////////////////////////////////////////////////
@@ -475,14 +458,6 @@ AnalyzeInfoOfArc(char* path)
 					//esli rabochiy potok
 					if (m_BeginThread)
 					{
-						//procent vipolneniya raboti
-						LONGLONG percent = 0;
-						if (m_ArchiveSize) percent = 100 * GetArcPointer(hArcData) / m_ArchiveSize;
-						if (m_Percent != percent)	//chtob ne poslat' lishnie soobsheniya (oni tormozyat rabotu)
-						{
-							m_Percent = percent;
-							::PostMessage(m_hWnd, WM_THREAD_PERCENT, 0, (LPARAM)m_Percent);
-						}
 						//net lis sobitiya zavershit' rabotu potoka
 						if(::WaitForSingleObject(m_hEventEnd, 0) == WAIT_OBJECT_0)
 						{

@@ -25,8 +25,6 @@ private:
 	int      AnalyzeFileHead(tHeaderData&, int&);		//obrabotka zagolovka fayla/papki
 	int      AnalyzeFileHeadEx(tHeaderDataEx&, int&);	//obrabotka zagolovka fayla/papki
 
-	LONGLONG GetArcPointer  (HANDLE);				//opredelit' smeshenie v arhive
-
 public:
 	TWcxPluginTC(DataForArchive& dfa, LanguageMessages& langmsg, LanguageResults& langres, char* namearch = "WCXPLUGIN");
 	~TWcxPluginTC() {;}
