@@ -80,9 +80,11 @@
     <OutDir>.\Release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.wlx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.wlx64</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -213,7 +215,7 @@
       <ImportLibrary>.\Release\ArchView.lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\ArchView.def</ModuleDefinitionFile>
-      <AdditionalOptions>-OPT:REF -OPT:ICF /MD %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-OPT:REF -OPT:ICF %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -256,7 +258,7 @@
       <ImportLibrary>.\Release\ArchView.lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\ArchView.def</ModuleDefinitionFile>
-      <AdditionalOptions>-OPT:REF -OPT:ICF /MD %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-OPT:REF -OPT:ICF %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
