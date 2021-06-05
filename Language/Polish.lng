@@ -1,0 +1,229 @@
+[Tabs]
+Info=Info
+Comment=Komentarz
+About=O programie
+
+[Info]
+UnpackSizeFiles=Rozmiar rozpakowanych plików
+PackSizeFiles=Rozmiar spakowanych plików
+ArchiveSize=Rozmiar Archiwum
+NumberFiles=Iloœæ plików
+NumberFolders=Iloœæ katalogów
+NumberChapters=Iloœæ czêœci
+DictionarySize=Rozmiar dziennika
+HostOS=Platforma systemowa
+ExtractOS=System wypakowania
+MethodPack=Metoda pakowania
+MemorySize=Rozmiar pamiêci
+RatioArchiveSize=Wspó³czynnik rozm. arch.
+RatioPackFileSize=Wspó³czynnik rozm. spak. plik.
+PackVersion=Wersja packera
+UnpackVersion=Wersja unpackera 
+SfxModule=Modu³ SFX
+RecoveryRecord=Recovery record
+Solid=Solid
+MultiArc=Wieloczêœciowe archiwum
+NumberVolume=Numer czêœci
+MainComment=Komentarz
+FileComment=Komentarz pliku
+ChapterComment=Komentarz rozdzia³u
+Password=Has³o
+ArchiveLock=Archiwum zabezpieczone
+AuthVerification=Weryfikacja autentycznoœci
+TestTime=Czas testu
+AnalyzeTime=Czas analizy
+AllTime=Czas ca³kowity
+DateCreated=Data utworzenia
+DateModified=Data modyfikacji
+TimeCreated=Czas utworzenia
+TimeModified=Czas modyfikacji
+OriginalName=Orginalna nazwa
+Magic=Magic
+
+[About]
+Version=wersja
+TypeProgram=wtyczka podgl¹du dla
+AndLater=i nastêpnych wersji
+UseProgram=darmowy do celów niekomercyjnych
+FunctionProgram=pokazuje informacje o archiwach
+SpecialThanksTo=Specjalne podziêkowania dla
+AdviceAndHelp=wskazówki i pomoc
+AuthorProgram=autor programu
+AuthorSite=strona autora
+ForTranslation=t³umaczenie
+Contact=Kontakt
+SendComment=Wyœlij komentarze i propozycje do autora
+AllRightsReserved=Wszystkie prawa zastrze¿one
+EMail=E-mail
+HomePage=Strona domowa
+Translation=T³umacz
+TranslationMan=ULTIMA PRIME
+TranslationMail=ultima-prime@o2.pl
+TranslationSite=www.ultima-prime.freehost.pl
+
+[OS]
+AcornRISC=Acorn RISC
+Amiga=Amiga
+AppleGS=Apple GS
+AtariST=Atari ST
+BeOS=BeOS
+CPM=CP/M
+DOS=MS-DOS
+MacOS=Mac OS
+MVS=MVS
+Next=Next
+OS2=OS/2
+Primos=Primos
+SMSQDOS=SMS/QDOS
+Tandem=Tandem
+TOPS20=TOPS-20
+Unix=Unix
+VaxVMS=Vax VMS
+VFAT=VFAT
+VMCMS=VM/CMS
+Win32=Win 32
+Win95=Win 95
+WinNT=Win NT
+ZSystem=Z-System
+
+[Pack]
+;wszystkie
+Stored=Bez kompresji
+Superfast=Super szybka
+Fastest=Najszybsza
+Fast=Szybka
+Normal=Normalna
+Good=Dobra
+Verygood=Bardzo dobra
+Best=Najlepsza
+;zip, gz
+Deflated=Deflated
+Deflated64=Deflatded64
+Imploded=Imploded
+Imploding=Imploding
+Shrunk=Shrunk
+Reduced=Reduced
+Tokenizing=Tokenzing
+BZip2=BZip2
+;bh
+Fuse=Fuse
+;bz2, ppm
+Rate=Rate
+;arc, pak, dwc, zoo
+Crunched=Crunched
+Unpacked=Unpacked
+Packed=Packed
+Squeezed=Squeezed
+Squashed=Squashed
+Crushed=Crushed
+Distilled=Distilled
+;cab
+MSZIP=MSZIP
+LZX=LZX
+Quantum=Quantum
+;ha
+CPY=CPY
+ASC=ASC
+HSC=HSC
+;lha, lzh
+lh0=-lh0-
+lh1=-lh1-
+lh2=-lh2-
+lh3=-lh3-
+lh4=-lh4-
+lh5=-lh5-
+lzs=-lzs-
+lz4=-lz4-
+lz5=-lz5-
+
+[Other]
+Yes=Tak
+No=Nie
+Byte=b
+KByte=Kb
+MByte=Mb
+GByte=Gb
+TByte=Tb
+Second=sec
+Percent=%
+Number=#
+Unknown=Nieznane
+PleaseWait=Proszê czekaæ
+Archive=Archiwum
+
+;for logfile
+[Archives]
+Ace=ACE
+ArcPak=ARC/PAK
+Arc=ARC
+Pak=PAK
+Arj=ARJ
+Bh=BH
+BZip2Tbz2=BZIP2/TBZIP2
+BZip2=BZIP2
+Cab=CAB
+Cpio=CPIO
+Dwc=DWC
+GZipTgz=GZIP/TGZIP
+GZip=GZIP
+Ha=HA
+LhaLzh=LHA/LZH
+Lha=LHA
+Lzh=LZH
+Ppm=PPM
+Rar=RAR
+Sqz=SQZ
+Tar=TAR
+Z=Z
+ZipJar=ZIP/JAR
+Zip=ZIP
+Jar=JAR
+Zoo=ZOO
+Sfx=SFX
+
+[Messages]
+_TestArchive=_TEST ARCHIWUM_
+_AnalyzeArchive=_ANALIZA ARCHIWUM_
+BlockArchiveComment=Blok komentarzy achiwum
+BlockArchiveEnd=Blok koñca archiwum
+BlockArhiveHeader=Blok nag³ówka archiwum
+BlockAuthentityVerification=Blok weryfikacji autentycznoœci
+BlockChapter=Blok rozdzia³ów
+BlockControlItems=Blok elementów kontroli
+BlockFile=Blok pliku 
+BlockFolder=Blok folderu
+BlockFolderBegin=Blok pocz¹tku folderu
+BlockFolderEnd=Blok koñca folderu
+BlockInformationalItems=Blok elementów informacyjnych
+BlockLocalFile=Blok pliku lokalnego
+BlockLocalFolder=Blok folderu lokalnego
+BlockPassword=Blok has³a
+BlockPostfix=Blok przyrostków
+BlockRecoveryRecord=Blok recovery record
+BlockSecurityEnvelope=Blok pow³oki zabezpieczeñ
+BlockUnknown=Blok nieznany
+BlockVolumeLabel=Blok etykiety woluminu
+BlockZip64DirectoryLocator=Blok lokalizatora katalogu zip64
+BlockZip64DirectoryRecord=Blok zip64 directory record
+DLLReadArchiveComment=komentarz ...
+MarkerArchive=znacznik archiwum
+SFXModule=Modu³ SFX
+SignatureArchive=Sygnatura archiwum
+SubBlockArchiveComment=Podblok komentarza archiwum
+SubBlockAuthentityVerification=Podblok weryfikacji autentycznoœci
+SubBlockFileComment=Podblok komentarzy plików
+SubBlockRecoveryRecord=Podblok recovery record
+SubBlockUnknown=Podblok nieznany
+
+[Results]
+TerminateThread=Zakoñcz w¹tek
+MessageOK=OK
+ErrorOpenFile=B³¹d otwarcia pliku
+ErrorReadFile=B³¹d czytania pliu
+ErrorSeekFile=B³¹d szukania pliku
+SuddenEndFile=Niespodziewany koniec pliku
+ErrorFormat=B³¹d formatu
+ErrorNotDll=B³¹d nie DLL
+ErrorDll=B³¹d DLL
+ErrorCreateWindow=B³¹d tworzenia okna
+ErrorUnknown=Nieznany b³¹d

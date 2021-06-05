@@ -1,0 +1,229 @@
+[Tabs]
+Info=Info
+Comment=Comment
+About=About
+
+[Info]
+UnpackSizeFiles=Nearchyvuotø failø dydis
+PackSizeFiles=Suarchyvuotø failø dydis
+ArchiveSize=Archyvo dydis
+NumberFiles=Failø skaièius
+NumberFolders=Katalogø skaièius
+NumberChapters=Skyriø skaièius
+DictionarySize=Þodyno dydis
+HostOS=Host OS
+ExtractOS=Extract OS
+MethodPack=Glaudinimo metodas
+MemorySize=Atminties dydis
+RatioArchiveSize=Archyvo dydþio koeficientas
+RatioPackFileSize=Glaudinimo koeficientas
+PackVersion=Arcyvavimo versija
+UnpackVersion=Iðarchyvavimo versija
+SfxModule=SFX modulis
+RecoveryRecord=Atkûrimo áraðas
+Solid=Vientisas
+MultiArc=Daugiatomis
+NumberVolume=Tomo numeris
+MainComment=Pagrindinis komentarai
+FileComment=Failo komentarai
+ChapterComment=Skyriaus komentarai
+Password=Slaptaþodis
+ArchiveLock=Archyvo uþraktas
+AuthVerification=Autentiðkumo tikrinimas
+TestTime=Bandymo laikas
+AnalyzeTime=Analizavimo laikas
+AllTime=Bendras laikas
+DateCreated=Sukûrimo data
+DateModified=Modifikavimo data
+TimeCreated=Sukûrimo laikas
+TimeModified=Modifikavimo laikas
+OriginalName=Tikrasis vardas
+Magic=Magija
+
+[About]
+Version=versija
+TypeProgram=perþiûros programa skirta
+AndLater=ar vëlesnioms versijoms
+UseProgram=nemokama tik nekomerciniam naudojimui
+FunctionProgram=rodo archyvø informacijà
+SpecialThanksTo=Dëkojame
+AdviceAndHelp=patarimai ir pagalba
+AuthorProgram=autorius programos
+AuthorSite=autorius svetainës
+ForTranslation=uþ vertimà
+Contact=Kontaktai
+SendComment=Siøskite komentarus ir pageidavimus autoriui
+AllRightsReserved=Visos teisës saugomos
+EMail=E-paðtas
+HomePage=Svetainë
+Translation=Vertimas
+TranslationMan=Domas Lasauskas
+TranslationMail=domas.lasauskas@gmail.com
+TranslationSite=
+
+[OS]
+AcornRISC=Acorn RISC
+Amiga=Amiga
+AppleGS=Apple GS
+AtariST=Atari ST
+BeOS=BeOS
+CPM=CP/M
+DOS=MS-DOS
+MacOS=Mac OS
+MVS=MVS
+Next=Next
+OS2=OS/2
+Primos=Primos
+SMSQDOS=SMS/QDOS
+Tandem=Tandem
+TOPS20=TOPS-20
+Unix=Unix
+VaxVMS=Vax VMS
+VFAT=VFAT
+VMCMS=VM/CMS
+Win32=Win 32
+Win95=Win 95
+WinNT=Win NT
+ZSystem=Z-System
+
+[Pack]
+;all
+Stored=Tik kaupimui
+Superfast=Nepaprastai greitai
+Fastest=Greièiausiai
+Fast=Greitai
+Normal=Vidutinðkai
+Good=Gerai
+Verygood=Labai gerai
+Best=Geriausiai
+;zip, gz
+Deflated=Deflated
+Deflated64=Deflated64
+Imploded=Imploded
+Imploding=Imploding
+Shrunk=Shrunk
+Reduced=Reduced
+Tokenizing=Tokenizing
+BZip2=BZip2
+;bh
+Fuse=Fuse
+;bz2, ppm
+Rate=Rate
+;arc, pak, dwc, zoo
+Crunched=Crunched
+Unpacked=Unpacked
+Packed=Packed
+Squeezed=Squeezed
+Squashed=Squashed
+Crushed=Crushed
+Distilled=Distilled
+;cab
+MSZIP=MSZIP
+LZX=LZX
+Quantum=Quantum
+;ha
+CPY=CPY
+ASC=ASC
+HSC=HSC
+;lha, lzh
+lh0=-lh0-
+lh1=-lh1-
+lh2=-lh2-
+lh3=-lh3-
+lh4=-lh4-
+lh5=-lh5-
+lzs=-lzs-
+lz4=-lz4-
+lz5=-lz5-
+
+[Other]
+Yes=Taip
+No=Ne
+Byte=b
+KByte=Kb
+MByte=Mb
+GByte=Gb
+TByte=Tb
+Second=sek.
+Percent=%
+Number=#
+Unknown=N/A
+PleaseWait=Praðome palaukti
+Archive=Archyvas
+
+;for logfile
+[Archives]
+Ace=ACE
+ArcPak=ARC/PAK
+Arc=ARC
+Pak=PAK
+Arj=ARJ
+Bh=BH
+BZip2Tbz2=BZIP2/TBZIP2
+BZip2=BZIP2
+Cab=CAB
+Cpio=CPIO
+Dwc=DWC
+GZipTgz=GZIP/TGZIP
+GZip=GZIP
+Ha=HA
+LhaLzh=LHA/LZH
+Lha=LHA
+Lzh=LZH
+Ppm=PPM
+Rar=RAR
+Sqz=SQZ
+Tar=TAR
+Z=Z
+ZipJar=ZIP/JAR
+Zip=ZIP
+Jar=JAR
+Zoo=ZOO
+Sfx=SFX
+
+[Messages]
+_TestArchive=_TEST ARCHIVE_
+_AnalyzeArchive=_ANALYZE ARCHIVE_
+BlockArchiveComment=block archive comment
+BlockArchiveEnd=block archive end
+BlockArhiveHeader=block arhive header
+BlockAuthentityVerification=block authentity verification
+BlockChapter=block chapter
+BlockControlItems=block control items
+BlockFile=block file
+BlockFolder=block folder
+BlockFolderBegin=block folder begin
+BlockFolderEnd=block folder end
+BlockInformationalItems=block informational items
+BlockLocalFile=block local file
+BlockLocalFolder=block local folder
+BlockPassword=block password
+BlockPostfix=block postfix
+BlockRecoveryRecord=block recovery record
+BlockSecurityEnvelope=block security envelope
+BlockUnknown=block unknown
+BlockVolumeLabel=block volume label
+BlockZip64DirectoryLocator=block zip64 directory locator
+BlockZip64DirectoryRecord=block zip64 directory record
+DLLReadArchiveComment=DLL read archive comment
+MarkerArchive=marker archive
+SFXModule=SFX module
+SignatureArchive=signature archive
+SubBlockArchiveComment=subblock archive comment
+SubBlockAuthentityVerification=subblock authentity verification
+SubBlockFileComment=subblock file comment
+SubBlockRecoveryRecord=subblock recovery record
+SubBlockUnknown=subblock unknown
+
+[Results]
+TerminateThread=Nutraukti gijà (thread)
+MessageOK=Gerai
+ErrorOpenFile=Klaida atidarant failà
+ErrorReadFile=Klaida skaitant failà
+ErrorSeekFile=Klaida ieðkant faile
+SuddenEndFile=Netikëta failo pabaiga
+ErrorFormat=Klaidingas formatas
+ErrorNotDll=Klaida: ne DLL
+ErrorDll=Klaida su DLL
+ErrorCreateWindow=Klaida sukuriant langà
+ErrorUnknown=Neþinoma klaida

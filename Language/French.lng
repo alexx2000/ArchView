@@ -1,0 +1,232 @@
+[Tabs]
+Info=Informations
+Comment=Commentaires
+About=À propos...
+
+[Info]
+UnpackSizeFiles=Taille des fichiers décompressés
+PackSizeFiles=Taille des fichiers compressés
+ArchiveSize=Taille de l'archive
+NumberFiles=Nombre de fichiers
+NumberFolders=Nombre de répertoires
+NumberChapters=Nombre de chapitres
+DictionarySize=Taille du dictionnaire
+HostOS=S.E. de l'hôte
+ExtractOS=Identifier le S.E.
+MethodPack=Méthode de compression
+MemorySize=Taille de la mémoire
+RatioArchiveSize=Rapport de la taille de l'archive
+RatioPackFileSize=Rapport de la taille du fichier
+PackVersion=Version de l'archiveur
+UnpackVersion=Version du décompresseur
+SfxModule=Module SFX
+RecoveryRecord=Enregistrement pour récupération
+Solid=Consolidée
+MultiArc=Multi-volumes
+NumberVolume=Nombre de volumes
+MainComment=Commentaire principal
+FileComment=Commentaire des fichiers
+ChapterComment=Commentaires de chapitre
+Password=Mot de passe
+ArchiveLock=Archive sécurisée
+AuthVerification=Vérification d'authenticité
+TestTime=Durée du test
+AnalyzeTime=Durée de l'analyse
+AllTime=Durée totale
+DateCreated=Date de création
+DateModified=Date de modification
+TimeCreated=Heure de création
+TimeModified=Heure de modification
+OriginalName=Nom original
+Magic=Magique
+
+[About]
+Version=version
+TypeProgram=module visionneuse pour
+AndLater=et suivants
+UseProgram=gratuit pour usage non commercial
+FunctionProgram=affiche des informations pour archives
+SupportWCXPlugins=Accepte les modules *.wcx
+SpecialThanksTo=Un grand merci à
+AdviceAndHelp=conseil et aide
+AuthorProgram=auteur du programme
+AuthorSite=site de l'auteur
+ForTranslation=pour traduction
+Contact=Contact
+SendComment=Envoyer les commentaires et les souhaits à l'auteur
+AllRightsReserved=Tous droits réservés
+EMail=Courriel
+HomePage=Page d'accueil
+Translation=Traduction
+TranslationMan=Ouistiti
+TranslationMail=ouistiti@gmail.com
+TranslationSite=http:\\ouistiti.atspace.com
+
+[OS]
+AcornRISC=Acorn RISC
+Amiga=Amiga
+AppleGS=Apple GS
+AtariST=Atari ST
+BeOS=BeOS
+CPM=CP/M
+DOS=MS-DOS
+MacOS=Mac OS
+MVS=MVS
+Next=Next
+OS2=OS/2
+Primos=Primos
+SMSQDOS=SMS/QDOS
+Tandem=Tandem
+TOPS20=TOPS-20
+Unix=Unix
+VaxVMS=Vax VMS
+VFAT=VFAT
+VMCMS=VM/CMS
+Win32=Win 32
+Win95=Win 95
+WinNT=Win NT
+ZSystem=Z-Système
+
+[Pack]
+;all
+Stored=Pas compressée
+Superfast=Super rapide
+Fastest=Très rapide
+Fast=Rapide
+Normal=Normale
+Good=Bonne
+Verygood=Très bonne
+Best=Meilleure
+;zip, gz
+Deflated=“Deflated”
+Deflated64=“Deflated64”
+Imploded=“Imploded”
+Imploding=“Imploding”
+Shrunk=“Shrunk”
+Reduced=“Reduced”
+Tokenizing=“Tokenizing
+BZip2=BZip2”
+;bh
+Fuse=Fuse
+;bz2, ppm
+Rate=Taux
+;arc, pak, dwc, zoo
+Crunched=Exécuté
+Unpacked=Décompressé
+Packed=Compressé
+Squeezed=Serré
+Squashed=Squashed
+Crushed=Écrasé
+Distilled=Distillé
+;cab
+MSZIP=MSZIP
+LZX=LZX
+Quantum=Quantum
+;ha
+CPY=CPY
+ASC=ASC
+HSC=HSC
+;lha, lzh
+lh0=-lh0-
+lh1=-lh1-
+lh2=-lh2-
+lh3=-lh3-
+lh4=-lh4-
+lh5=-lh5-
+lzs=-lzs-
+lz4=-lz4-
+lz5=-lz5-
+
+[Other]
+Yes=Oui
+No=Non
+Byte=o
+KByte=Kio
+MByte=Mio
+GByte=Gio
+TByte=Tio
+Second=sec
+Percent=%
+Number=#
+Unknown=N/C
+PleaseWait=Patientez...
+Archive= - « Archive »
+Plugin= - « Module »
+
+;for logfile
+[Archives]
+Ace=ACE
+ArcPak=ARC/PAK
+Arc=ARC
+Pak=PAK
+Arj=ARJ
+Bh=BH
+BZip2Tbz2=BZIP2/TBZIP2
+BZip2=BZIP2
+Cab=CAB
+Cpio=CPIO
+Dwc=DWC
+GZipTgz=GZIP/TGZIP
+GZip=GZIP
+Ha=HA
+LhaLzh=LHA/LZH
+Lha=LHA
+Lzh=LZH
+Ppm=PPM
+Rar=RAR
+Sqz=SQZ
+Tar=TAR
+Z=Z
+ZipJar=ZIP/JAR
+Zip=ZIP
+Jar=JAR
+Zoo=ZOO
+Sfx=SFX
+
+[Messages]
+_TestArchive=_TEST ARCHIVE_
+_AnalyzeArchive=_ANALYZE ARCHIVE_
+BlockArchiveComment=Commentaire de bloc d'archive
+BlockArchiveEnd=Fin de bloc d'archive
+BlockArhiveHeader=En-tête de bloc-ruche (hôte)
+BlockAuthentityVerification=Vérif. du bloc d'authentification
+BlockChapter=Chapitre de bloc
+BlockControlItems=Éléments de conrôle de bloc
+BlockFile=Fichier du bloc
+BlockFolder=Dossier du bloc
+BlockFolderBegin=Début du bloc-dossier
+BlockFolderEnd=Fin du bloc-dossier
+BlockInformationalItems=Éléments informatifs du bloc
+BlockLocalFile=Bloc fichier local
+BlockLocalFolder=Bloc dossier local
+BlockPassword=Bloc mot de passe
+BlockPostfix=bloc ID.
+BlockRecoveryRecord=bloc récupération données
+BlockSecurityEnvelope=bloc enveloppe de sécurité
+BlockUnknown=Bloc inconnu
+BlockVolumeLabel=Bloc nom de volume
+BlockZip64DirectoryLocator=Bloc zip64 logeur répertoire
+BlockZip64DirectoryRecord=Bloc zip64 enregistr. répertoire
+DLLReadArchiveComment=DLL de lecture commentaire d'archive
+MarkerArchive=Balise d'archive
+SFXModule=Module SFX
+SignatureArchive=Signature d'archive
+SubBlockArchiveComment=Sous-bloc comment. d'archive
+SubBlockAuthentityVerification=Sous-bloc vérif. authentification
+SubBlockFileComment=Sous-bloc commentaire fichier
+SubBlockRecoveryRecord=Sous-bloc enregistr. récupération données
+SubBlockUnknown=Sous-bloc inconnu
+UsePlugin=Utiliser un module
+
+[Results]
+TerminateThread=Trame terminée
+MessageOK=Confirmer
+ErrorOpenFile=Erreur d'ouverture fichier
+ErrorReadFile=Erreur lecture fichier
+ErrorSeekFile=Erreur de recherche fichier
+SuddenEndFile=Fin prématurée du fichier
+ErrorFormat=Erreur de format
+ErrorNotDll=Erreur : n'est pas une DLL
+ErrorDll=Erreur de DLL
+ErrorCreateWindow=Erreur de création de fenêtre
+ErrorUnknown=Erreur inconnue

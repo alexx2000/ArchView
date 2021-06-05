@@ -1,0 +1,7 @@
+[plugininstall]
+description=ArchView show the information on archives
+descriptionrus=ArchView показывает информацию об архивах
+descriptiondeu=ArchView zeigt Archivinformationen im Lister
+type=wlx
+file=ArchView.wlx
+defaultdir=ArchView
