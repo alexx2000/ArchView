@@ -296,6 +296,7 @@
     <ClCompile Include="TLhaLzh.cpp" />
     <ClCompile Include="TPpm.cpp" />
     <ClCompile Include="TRar.cpp" />
+    <ClCompile Include="TSevenZip.cpp" />
     <ClCompile Include="TSqz.cpp" />
     <ClCompile Include="TTar.cpp" />
     <ClCompile Include="TWcxPluginTC.cpp" />
@@ -307,6 +308,13 @@
     <CustomBuild Include="ArchView.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="7zip\IArchive.h" />
+    <ClInclude Include="7zip\IDecl.h" />
+    <ClInclude Include="7zip\IPassword.h" />
+    <ClInclude Include="7zip\IProgress.h" />
+    <ClInclude Include="7zip\IStream.h" />
+    <ClInclude Include="7zip\MyCom.h" />
+    <ClInclude Include="7zip\PropID.h" />
     <ClInclude Include="ArchView.h" />
     <ClInclude Include="GlobalParametr.h" />
     <ClInclude Include="ListPlugin.h" />
@@ -335,6 +343,7 @@
     <ClInclude Include="TLhaLzh.h" />
     <ClInclude Include="TPpm.h" />
     <ClInclude Include="TRar.h" />
+    <ClInclude Include="TSevenZip.h" />
     <ClInclude Include="TSqz.h" />
     <ClInclude Include="TTar.h" />
     <ClInclude Include="TWcxPluginTC.h" />

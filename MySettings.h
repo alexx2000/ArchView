@@ -80,6 +80,9 @@ typedef struct _SettingsParameters
 	unsigned TimeModified;
 	unsigned OriginalName;
 	unsigned Magic;
+	unsigned HeadersSize;
+	unsigned NumBlocks;
+	unsigned Offset;
 } SettingsParameters;
 
 //parametri logfile (file ArchView.ini)
@@ -113,6 +116,7 @@ typedef struct _SettingsArchives
 	int  Z;
 	int  ZipJar;
 	int  Zoo;
+	int  SevenZip;
 } SettingsArchives;
 
 //rasshireniya dlya arhivov (file ArchView.ini)
@@ -137,6 +141,7 @@ typedef struct _SettingsExtensions
 	char ExtZ        [MAX_LOADSTRING];
 	char ExtZipJar   [MAX_LOADSTRING];
 	char ExtZoo      [MAX_LOADSTRING];
+	char ExtSevenZip [MAX_LOADSTRING];
 } SettingsExtensions;
 
 //DLL dlya arhivov (file ArchView.ini)

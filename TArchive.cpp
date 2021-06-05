@@ -25,7 +25,7 @@ TArchive(DataForArchive& dfa, LanguageMessages& langmsg, LanguageResults& langre
 	m_CheckSFX(dfa.SFX), m_MAX_LEN_SFX(dfa.SizeSFX),
 	m_InvertRatio(dfa.InvertRatio),
 	m_pTargetFile(dfa.pTargetFile), m_pUnArchiveDll(dfa.pUnArchiveDll),
-	m_pInternalName(0)
+	m_pInternalName(0), m_pMethodPack(0)
 
 {
 	//infa svyazannaya s logfaylom
@@ -61,6 +61,8 @@ TArchive::
 			{ delete[] m_pAuthVerification; m_pAuthVerification = 0; }
 		if (m_pTextComment)
 			{ delete[] m_pTextComment; m_pTextComment = 0; }
+		if (m_pMethodPack)
+			{ delete[] m_pMethodPack; m_pMethodPack = 0; }
 		if (m_LogFile)
 			{ m_LogFile->CloseLogFile(); delete m_LogFile; m_LogFile = 0; }
 		if (m_pInternalName)
@@ -117,6 +119,11 @@ InitialParametrs()
 								ZIP ili JAR arhiv (dlya ZIP/JAR)*/
 
 	if(m_pTextComment) { delete[] m_pTextComment; m_pTextComment = 0; }	//ukazatel' na text - kommentariy
+
+	if(m_pMethodPack) { delete[] m_pMethodPack; m_pMethodPack = 0; }	//ukazatel' na text - metod sjatiya
+	m_HeadersSize      = 0;
+	m_NumBlocks        = 0;
+	m_Offset           = 0;
 
 	//vremya raboti
 	m_TestTime          = 0;	//vremya raboti TestFile

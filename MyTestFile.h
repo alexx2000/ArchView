@@ -28,6 +28,7 @@
 #include "TZ.h"
 #include "TZipJar.h"
 #include "TZoo.h"
+#include "TSevenZip.h"
 #include "TWcxPluginTC.h"
 
 //klass dlya testirivaniya faylov
@@ -61,6 +62,7 @@ private:
 	int TestZ          ();
 	int TestZipJar     ();
 	int TestZoo        ();
+	int TestSevenZip   ();
 	int TestWcxPluginTC(char*);
 
 public:

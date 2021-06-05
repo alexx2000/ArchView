@@ -80,6 +80,9 @@ ReadLanguageProgram(char* langfile)
 	fLNG.ReadKey(SN.SectInfo, "TimeModified",      "Time modified",           sLanguageTabInfo.TimeModified,      MAX_LOADSTRING);
 	fLNG.ReadKey(SN.SectInfo, "OriginalName",      "Original name",           sLanguageTabInfo.OriginalName,      MAX_LOADSTRING);
 	fLNG.ReadKey(SN.SectInfo, "Magic",             "Magic",                   sLanguageTabInfo.Magic,             MAX_LOADSTRING);
+	fLNG.ReadKey(SN.SectInfo, "HeadersSize",       "Headers Size",            sLanguageTabInfo.HeadersSize,       MAX_LOADSTRING);
+	fLNG.ReadKey(SN.SectInfo, "NumBlocks",         "Blocks",                  sLanguageTabInfo.NumBlocks,         MAX_LOADSTRING);
+	fLNG.ReadKey(SN.SectInfo, "Offset",            "Offset",                  sLanguageTabInfo.Offset,            MAX_LOADSTRING);
 
 	//[About]
 	//chtenie klyuchey
@@ -211,6 +214,7 @@ ReadLanguageProgram(char* langfile)
 	fLNG.ReadKey(SN.SectArchives, "Zip",       "ZIP",          sLanguageArchives.Zip,       MAX_LOADSTRING);
 	fLNG.ReadKey(SN.SectArchives, "Jar",       "JAR",          sLanguageArchives.Jar,       MAX_LOADSTRING);
 	fLNG.ReadKey(SN.SectArchives, "Zoo",       "ZOO",          sLanguageArchives.Zoo,       MAX_LOADSTRING);
+	fLNG.ReadKey(SN.SectArchives, "7Zip",      "7ZIP",         sLanguageArchives.SevenZip,  MAX_LOADSTRING);
 	fLNG.ReadKey(SN.SectArchives, "Sfx",       "SFX",          sLanguageArchives.Sfx,       MAX_LOADSTRING);
 
 	//[Messages]

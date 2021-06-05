@@ -477,6 +477,32 @@ int MyTestFile::TestZoo()
 	return 0;
 }
 
+//testirovat' na 7ZIP
+int MyTestFile::TestSevenZip()
+{
+	if (m_pSettings->sSettingsArchives.SevenZip)
+	{
+		m_pArchData = new TSevenZip(m_dfa, m_pLanguage->sLanguageMessages,
+									m_pLanguage->sLanguageResults,
+									m_pLanguage->sLanguageArchives.SevenZip);
+
+		if (m_pArchData->Start(&m_dft) != TMESSAGE_OK)
+		{
+			delete m_pArchData;
+			m_pArchData = 0;
+			m_dfa.NewLF = 0;
+			return 0;
+		}
+		else
+		{
+			*m_pArchiveType = T_SEVEN_ZIP;
+			m_dfa.NewLF = 0;
+			return 1;
+		}
+	}
+	return 0;
+}
+
 //testirovat' na arhivatorniy (wcx) plugin Total Commander
 int MyTestFile::TestWcxPluginTC(char* nameplugin)
 {
@@ -689,6 +715,13 @@ TArchive* MyTestFile::TestArchive(MySettings* pSettings, MyLanguage* pLanguage, 
 					if (TestZoo()) return m_pArchData;
 					else goto _T_LABEL_END_EXT;
 				break;
+			case T_SEVEN_ZIP:
+				sprintf(ARCHEXT, " %s ", sSettingsExtensions.ExtSevenZip);
+				strlwr(ARCHEXT);
+				if (strstr(ARCHEXT, EXT))
+					if (TestSevenZip()) return m_pArchData;
+					else goto _T_LABEL_END_EXT;
+				break;
 			default:
 				m_dfa.pUnArchiveDll = 0;	//DLL dlya dannogo tipa arhiva (chitat' kommentariy)
 				break;
@@ -785,6 +818,9 @@ TArchive* MyTestFile::TestArchive(MySettings* pSettings, MyLanguage* pLanguage, 
 				else break;
 			case T_ZOO:
 				if (TestZoo      ()) return m_pArchData;
+				else break;
+			case T_SEVEN_ZIP:
+				if (TestSevenZip ()) return m_pArchData;
 				else break;
 			default:
 				m_dfa.pUnArchiveDll = 0;	//DLL dlya dannogo tipa arhiva (chitat' kommentariy)

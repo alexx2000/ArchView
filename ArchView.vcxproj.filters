@@ -90,6 +90,9 @@
     <ClCompile Include="TRar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TSevenZip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="TSqz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -200,6 +203,9 @@
     <ClInclude Include="TRar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TSevenZip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="TSqz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -228,6 +234,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WcxHead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\IArchive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\IDecl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\IPassword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\IProgress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\IStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\MyCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7zip\PropID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

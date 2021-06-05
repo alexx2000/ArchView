@@ -3424,6 +3424,189 @@ int MySelectInfo::SelectInfoZoo()
 	return 1;
 }
 
+//dlya archiva 7ZIP
+int MySelectInfo::SelectInfoSevenZip()
+{
+	//dlya uprosheniya obrasheniya k dannim sobrannim v odnom meste
+	SettingsMain& sSettingsMain = m_pSettings->sSettingsMain;
+	SettingsParameters& sSettingsParameters = m_pSettings->sSettingsParameters;
+	LanguageTabInfo& sLanguageTabInfo = m_pLanguage->sLanguageTabInfo;
+	LanguageOS& sLanguageOS = m_pLanguage->sLanguageOS;
+	LanguagePack& sLanguagePack = m_pLanguage->sLanguagePack;
+	LanguageOther& sLanguageOther = m_pLanguage->sLanguageOther;
+	MListParametrs& ListParam = *m_pListParam;
+
+	TSevenZip* obj_7zip = (TSevenZip*)m_pArchData;
+
+	ULONGLONG UnpackSizeFiles = obj_7zip->GetUnpackSizeFiles();
+	ULONGLONG PackSizeFiles = obj_7zip->GetPackSizeFiles();
+	ULONGLONG ArchiveSize = obj_7zip->GetArchiveSize();
+	unsigned  NumberFiles = obj_7zip->GetNumberFiles();
+	unsigned  NumberFolders = obj_7zip->GetNumberFolders();
+	char*     pMethodPack = obj_7zip->GetMethodPack();
+	LONGLONG  NumBlocks = obj_7zip->GetNumBlocks();
+	LONGLONG  HeadersSize = obj_7zip->GetHeadersSize();
+	LONGLONG  Offset = obj_7zip->GetOffset();
+	double    RatioArchiveSize = obj_7zip->GetRatioArchiveSize();
+	double    RatioPackFileSize = obj_7zip->GetRatioPackFileSize();
+	unsigned  SfxModule = obj_7zip->GetSfxModule();
+	BOOL      Solid = obj_7zip->GetSolid();
+	BOOL      Password = obj_7zip->GetPassword();
+
+	double    TestTime = m_TestTime;
+	double    AnalyzeTime = obj_7zip->GetAnalyzeTime();
+	double    AllTime = m_TestTime + AnalyzeTime;
+
+	if (((int)RatioPackFileSize == 0) && (RatioPackFileSize > 0)) * m_pRatio1 = 1;
+	else *m_pRatio1 = (int)RatioPackFileSize;
+	if (((int)RatioArchiveSize == 0) && (RatioArchiveSize > 0)) * m_pRatio2 = 1;
+	else *m_pRatio2 = (int)RatioArchiveSize;
+
+	char BufStr[MAX_LOADSTRING] = { NULL };
+
+	//zagolovok
+	char* _ARCH = m_pLanguage->sLanguageArchives.SevenZip;
+	char* _SFX = m_pLanguage->sLanguageArchives.Sfx;
+	if ((Solid) && (SfxModule)) sprintf(BufStr, "%s %s %s %s", sLanguageTabInfo.Solid, _SFX, _ARCH, sLanguageOther.Archive);
+	else
+		if (Solid) sprintf(BufStr, "%s %s %s", sLanguageTabInfo.Solid, _ARCH, sLanguageOther.Archive);
+		else
+			if (SfxModule) sprintf(BufStr, "%s %s %s", _SFX, _ARCH, sLanguageOther.Archive);
+			else sprintf(BufStr, "%s %s", _ARCH, sLanguageOther.Archive);
+	ListParam.AddParametr("", BufStr);
+
+	//neupakovanniy razmer
+	if ((sSettingsMain.AllParametrs) || (UnpackSizeFiles))
+	{
+		if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, UnpackSizeFiles, T_BYTE, sLanguageOther);
+		else NumberFloatStringUnitSize(BufStr, UnpackSizeFiles, T_BYTE, sLanguageOther);
+		if (sSettingsParameters.UnpackSizeFiles)
+			ListParam.AddParametr(sLanguageTabInfo.UnpackSizeFiles, BufStr);
+	}
+	//upakovanniy razmer
+	if ((sSettingsMain.AllParametrs) || (PackSizeFiles))
+	{
+		if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, PackSizeFiles, T_BYTE, sLanguageOther);
+		else NumberFloatStringUnitSize(BufStr, PackSizeFiles, T_BYTE, sLanguageOther);
+		if (sSettingsParameters.PackSizeFiles)
+			ListParam.AddParametr(sLanguageTabInfo.PackSizeFiles, BufStr);
+	}	
+	//razmer arhiva
+	if ((sSettingsMain.AllParametrs) || (ArchiveSize))
+	{
+		if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, ArchiveSize, T_BYTE, sLanguageOther);
+		else NumberFloatStringUnitSize(BufStr, ArchiveSize, T_BYTE, sLanguageOther);
+		if (sSettingsParameters.ArchiveSize)
+			ListParam.AddParametr(sLanguageTabInfo.ArchiveSize, BufStr);
+	}	
+	//kolichestvo faylov
+	if ((sSettingsMain.AllParametrs) || (NumberFiles))
+	{
+		if (NumberFiles) NumberSeparatorString(BufStr, NumberFiles);
+		else sprintf(BufStr, "%s", sLanguageOther.No);
+		if (sSettingsParameters.NumberFiles)
+			ListParam.AddParametr(sLanguageTabInfo.NumberFiles, BufStr);
+	}
+	//kolichestvo papok
+	if ((sSettingsMain.AllParametrs) || (NumberFolders))
+	{
+		if (NumberFolders) NumberSeparatorString(BufStr, NumberFolders);
+		else sprintf(BufStr, "%s", sLanguageOther.No);
+		if (sSettingsParameters.NumberFolders)
+			ListParam.AddParametr(sLanguageTabInfo.NumberFolders, BufStr);
+	}
+
+	//razdelitel'
+	ListParam.AddParametr("", "");
+
+	//metod upakovki
+	if ((sSettingsParameters.MethodPack) && (pMethodPack))
+		ListParam.AddParametr(sLanguageTabInfo.MethodPack, pMethodPack);
+	//razmer zagolovkov
+	if ((sSettingsMain.AllParametrs) || (HeadersSize))
+	{
+		if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, HeadersSize, T_BYTE, sLanguageOther);
+		else NumberFloatStringUnitSize(BufStr, HeadersSize, T_BYTE, sLanguageOther);
+		if (sSettingsParameters.HeadersSize)
+			ListParam.AddParametr(sLanguageTabInfo.HeadersSize, BufStr);
+	}
+	//smeshchenie arhiva
+	if ((sSettingsMain.AllParametrs) || ((Offset) && (!SfxModule)))
+	{
+		if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, Offset, T_BYTE, sLanguageOther);
+		else NumberFloatStringUnitSize(BufStr, Offset, T_BYTE, sLanguageOther);
+		if (sSettingsParameters.Offset)
+			ListParam.AddParametr(sLanguageTabInfo.Offset, BufStr);
+	}
+	//kolichestvo blokov
+	if ((sSettingsMain.AllParametrs) || (NumBlocks))
+	{
+		if (NumBlocks) NumberSeparatorString(BufStr, NumBlocks);
+		else sprintf(BufStr, "%s", sLanguageOther.No);
+		if (sSettingsParameters.NumBlocks)
+			ListParam.AddParametr(sLanguageTabInfo.NumBlocks, BufStr);
+	}
+
+	//sjatie ot rzmera arhiva
+	sprintf(BufStr, "%.1f %s", RatioArchiveSize, sLanguageOther.Percent);
+	if (sSettingsParameters.RatioArchiveSize)
+		ListParam.AddParametr(sLanguageTabInfo.RatioArchiveSize, BufStr);
+
+	//sjatie ot upakovannogo razmera
+	sprintf(BufStr, "%.1f %s", RatioPackFileSize, sLanguageOther.Percent);
+	if (sSettingsParameters.RatioPackFileSize)
+		ListParam.AddParametr(sLanguageTabInfo.RatioPackFileSize, BufStr);
+
+	//razdelitel'
+	ListParam.AddParametr("", "");
+
+	//SFX modul'
+	if ((sSettingsMain.AllParametrs) || (SfxModule))
+	{
+		if (sSettingsParameters.SfxModule)
+			if (!SfxModule) ListParam.AddParametr(sLanguageTabInfo.SfxModule, sLanguageOther.No);
+			else
+			{
+				if (!sSettingsMain.FloatSize) NumberSeparatorStringUnitSize(BufStr, SfxModule, T_BYTE, sLanguageOther);
+				else NumberFloatStringUnitSize(BufStr, SfxModule, T_BYTE, sLanguageOther);
+				ListParam.AddParametr(sLanguageTabInfo.SfxModule, BufStr);
+			}
+	}
+
+	//neprerivnost'
+	if ((sSettingsMain.AllParametrs) || (Solid))
+	{
+		if (sSettingsParameters.Solid)
+			if (!Solid) ListParam.AddParametr(sLanguageTabInfo.Solid, sLanguageOther.No);
+			else ListParam.AddParametr(sLanguageTabInfo.Solid, sLanguageOther.Yes);
+	}
+
+	//parol'
+	if ((sSettingsMain.AllParametrs) || (Password))
+	{
+		if (sSettingsParameters.Password)
+			if (!Password) ListParam.AddParametr(sLanguageTabInfo.Password, sLanguageOther.No);
+			else ListParam.AddParametr(sLanguageTabInfo.Password, sLanguageOther.Yes);
+	}
+
+	//razdelitel'
+	ListParam.AddParametr("", "");
+
+	sprintf(BufStr, "%.2f %s", TestTime, sLanguageOther.Second);
+	if (sSettingsParameters.TestTime)
+		ListParam.AddParametr(sLanguageTabInfo.TestTime, BufStr);
+
+	sprintf(BufStr, "%.2f %s", AnalyzeTime, sLanguageOther.Second);
+	if (sSettingsParameters.AnalyzeTime)
+		ListParam.AddParametr(sLanguageTabInfo.AnalyzeTime, BufStr);
+
+	sprintf(BufStr, "%.2f %s", AllTime, sLanguageOther.Second);
+	if (sSettingsParameters.AllTime)
+		ListParam.AddParametr(sLanguageTabInfo.AllTime, BufStr);
+
+	return 1;
+}
+
 //dlya arhivatornih (wcx) plaginov Total Commander
 int MySelectInfo::SelectInfoWcxPluginTC()
 {
@@ -3662,6 +3845,8 @@ int MySelectInfo::SelectInfoArchive(MySettings* pSettings, MyLanguage* pLanguage
 		SelectInfoZipJar();      break;
 	case T_ZOO:
 		SelectInfoZoo();         break;
+	case T_SEVEN_ZIP:
+		SelectInfoSevenZip();    break;
 	case T_WCX_PLUGIN_TC:
 		SelectInfoWcxPluginTC(); break;
 	default:

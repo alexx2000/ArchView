@@ -1995,6 +1995,7 @@ HWND __stdcall ListLoad(HWND ParentWin,char* FileToLoad,int ShowFlags)
 		case T_Z:             strcpy(BufStr, sLanguageArchives.Z);                 break;
 		case T_ZIP_JAR:       strcpy(BufStr, sLanguageArchives.ZipJar);            break;
 		case T_ZOO:           strcpy(BufStr, sLanguageArchives.Zoo);               break;
+		case T_SEVEN_ZIP:     strcpy(BufStr, sLanguageArchives.SevenZip);          break;
 		case T_WCX_PLUGIN_TC: strcpy(BufStr, gp->pArchData->GetInternalName());    break;
 		default:              strcpy(BufStr, sLanguageOther.Unknown);              break;
 		}
@@ -2408,6 +2409,13 @@ void __stdcall ListGetDetectString(char* DetectString, int maxlen)
 				if (fINI.ReadKey(SectArchives, "Zoo",       1))
 				{
 					fINI.ReadKey(SectExtensions, "ExtZoo",       "zoo",      BufStr, MAX_LOADSTRING);
+					strupr(BufStr);
+					AddToGenDetectString(GenDetectString, BufStr);
+				}
+				//7ZIP
+				if (fINI.ReadKey(SectArchives, "7Zip",       1))
+				{
+					fINI.ReadKey(SectExtensions, "Ext7Zip",       "7z",      BufStr, MAX_LOADSTRING);
 					strupr(BufStr);
 					AddToGenDetectString(GenDetectString, BufStr);
 				}

@@ -40,8 +40,8 @@ int MySettings::CheckPriorityArchives()
 	//ACE = 1 | ARJ = 2 | CAB = 3
 	//"2 1 3" t.e. snachala ARJ, potom ACE a potom CAB
 	int number = sscanf(sSettingsArchives.PriorityArchives,
-		//1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
-		"%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+		//1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+		"%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
 		&MasPriorityArchives[0],
 		&MasPriorityArchives[1],
 		&MasPriorityArchives[2],
@@ -59,7 +59,8 @@ int MySettings::CheckPriorityArchives()
 		&MasPriorityArchives[14],
 		&MasPriorityArchives[15],
 		&MasPriorityArchives[16],
-		&MasPriorityArchives[17]);
+		&MasPriorityArchives[17],
+		&MasPriorityArchives[18]);
 
 	//nadoli ispravit' massiv prioritetov
 	BOOL CorrectMasPriorityArchives = FALSE;
@@ -126,7 +127,7 @@ int MySettings::CheckPriorityArchives()
 		//izmenennuyu stroku prioritetov zapishem v fayl nastroek
 		char BufStr[MAX_LOADSTRING] = {NULL};
 		sprintf(sSettingsArchives.PriorityArchives,
-			"%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+			"%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
 			MasPriorityArchives[0],
 			MasPriorityArchives[1],
 			MasPriorityArchives[2],
@@ -144,7 +145,8 @@ int MySettings::CheckPriorityArchives()
 			MasPriorityArchives[14],
 			MasPriorityArchives[15],
 			MasPriorityArchives[16],
-			MasPriorityArchives[17]);
+			MasPriorityArchives[17],
+			MasPriorityArchives[18]);
 		fINI.WriteKey(SectionsINI.SectArchives, "PriorityArchives", sSettingsArchives.PriorityArchives);
 	}
 
@@ -458,7 +460,7 @@ ReadSettingsProgram(char* inifile)
 
 	//[Archives]
 	//chtenie klyuchey
-	fINI.ReadKey(SN.SectArchives, "PriorityArchives", "13 17 1 6 3 11 9 15 2 4 5 7 8 10 12 14 16 18", sSettingsArchives.PriorityArchives, MAX_LOADSTRING);
+	fINI.ReadKey(SN.SectArchives, "PriorityArchives", "13 17 19 1 6 3 11 9 15 2 4 5 7 8 10 12 14 16 18", sSettingsArchives.PriorityArchives, MAX_LOADSTRING);
 	sSettingsArchives.Ace       = fINI.ReadKey(SN.SectArchives, "Ace",       1);
 	sSettingsArchives.ArcPak    = fINI.ReadKey(SN.SectArchives, "ArcPak",    1);
 	sSettingsArchives.Arj       = fINI.ReadKey(SN.SectArchives, "Arj",       1);
@@ -477,6 +479,7 @@ ReadSettingsProgram(char* inifile)
 	sSettingsArchives.Z         = fINI.ReadKey(SN.SectArchives, "Z",         1);
 	sSettingsArchives.ZipJar    = fINI.ReadKey(SN.SectArchives, "ZipJar",    1);
 	sSettingsArchives.Zoo       = fINI.ReadKey(SN.SectArchives, "Zoo",       1);
+	sSettingsArchives.SevenZip  = fINI.ReadKey(SN.SectArchives, "7Zip",      1);
 
 	//proverka/ispravlenie dannih
 	CheckPriorityArchives();	//proverka prioriteta arhivov
@@ -534,6 +537,9 @@ ReadSettingsProgram(char* inifile)
 	if ((sSettingsArchives.Zoo)       &&
 		(sSettingsArchives.Zoo       != 1))
 		fINI.WriteKey(SN.SectArchives, "Zoo",       1);
+	if ((sSettingsArchives.SevenZip)  &&
+		(sSettingsArchives.SevenZip  != 1))
+		fINI.WriteKey(SN.SectArchives, "7Zip",      1);
 
 	//[Extebsions]
 	//chtenie klyuchey
@@ -556,6 +562,7 @@ ReadSettingsProgram(char* inifile)
 	fINI.ReadKey(SN.SectExtensions, "ExtZ",         "z",           sSettingsExtensions.ExtZ,         MAX_LOADSTRING);
 	fINI.ReadKey(SN.SectExtensions, "ExtZipJar",    "zip jar",     sSettingsExtensions.ExtZipJar,    MAX_LOADSTRING);
 	fINI.ReadKey(SN.SectExtensions, "ExtZoo",       "zoo",         sSettingsExtensions.ExtZoo,       MAX_LOADSTRING);
+	fINI.ReadKey(SN.SectExtensions, "Ext7Zip",      "7z",          sSettingsExtensions.ExtSevenZip,  MAX_LOADSTRING);
 
 	//proverka/ispravlenie dannih
 	if ((sSettingsExtensions.OnlyExtensions)      &&

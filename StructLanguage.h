@@ -60,6 +60,9 @@ typedef struct _LanguageTabInfo
 	char TimeModified     [MAX_LOADSTRING];
 	char OriginalName     [MAX_LOADSTRING];
 	char Magic            [MAX_LOADSTRING];
+	char HeadersSize      [MAX_LOADSTRING];
+	char NumBlocks        [MAX_LOADSTRING];
+	char Offset           [MAX_LOADSTRING];
 } LanguageTabInfo;
 
 
@@ -225,6 +228,7 @@ typedef struct _LanguageArchives
 	char Zip      [MAX_LOADSTRING];
 	char Jar      [MAX_LOADSTRING];
 	char Zoo      [MAX_LOADSTRING];
+	char SevenZip [MAX_LOADSTRING];
 	char Sfx      [MAX_LOADSTRING];
 } LanguageArchives;
 

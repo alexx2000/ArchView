@@ -57,6 +57,11 @@ class TArchive
 
 		char*    m_pTextComment;		//ukazatel' na text - kommentariy
 
+		char*    m_pMethodPack;			//metod sjatiya (stroka)
+		LONGLONG m_HeadersSize;
+		LONGLONG m_NumBlocks;
+		LONGLONG m_Offset;
+
 		//vremya raboti
 		double   m_TestTime;			//vremya testirovaniya arhiva
 		double   m_AnalyzeTime;			//vremya analiza arhiva
@@ -113,7 +118,7 @@ class TArchive
 
 	public:
 		TArchive(DataForArchive& dfa, LanguageMessages& langmsg, LanguageResults& langres, char* namearch= "MSG");
-		~TArchive();
+		virtual ~TArchive();
 
 		virtual int TestFile        (char*) = 0;//testirovat' fayl na sootvetstvuyushiy vid arhiva
 		virtual int AnalyzeInfoOfArc(char*) = 0;//opredelit' parametri (info) arhiva

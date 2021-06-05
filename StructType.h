@@ -67,6 +67,7 @@ enum TypeOfArchive
 	T_Z,				//*.z
 	T_ZIP_JAR,			//*.zip; *.jar (Java ARhiver)
 	T_ZOO,				//*.zoo
+	T_SEVEN_ZIP,		//*.7z
 	T_NUMBER_ARCHIVES,	//(T_NUMBER_ARCHIVES-1) - izvestnoe kolichestvo arhivov
 	T_WCX_PLUGIN_TC		//*.* arhivatorniy (wcx) plagin Total Commander
 };
