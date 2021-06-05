@@ -1325,7 +1325,7 @@ int CreateTabAbout(HWND hwndParent)
 	int   len                = 0;
 	char* StrMsg             = 0;
 	char  NamePlugin       [] = "ArchView ";
-	char  VersionPlugin    [] = " 0.9.2.5 (27/05/2021)";
+	char  VersionPlugin    [] = " 0.9.3.0 (2021/06/05)";
 	char  NameProgram      [] = " Total Commander";
 	char  NumberProgram    [] = " 9.51 ";
 	char  ErgoSite         [] = " http:\\\\wincmd.ru";
