@@ -1371,7 +1371,7 @@ int CreateTabAbout(HWND hwndParent)
 	char  DomasLasauskas   [] = "Domas Lasauskas";
 	char  UltimaPrime      [] = "ULTIMA PRIME";
 	char  Ouistiti         [] = "Ouistiti";
-	char  SupportFormats   [] = "ACE, ARC (PAK), ARJ, BH - Blak Hole, BZIP2 (TAR BZIP2), CAB, CPIO, DWC, GZIP (TAR GZIP), HA, LHA (LZH), PPM, RAR, SQZ, TAR, Z, ZIP (JAR - Java ARhiver), ZOO";
+	char  SupportFormats   [] = "7ZIP, ACE, ARC (PAK), ARJ, BH - Blak Hole, BZIP2 (TAR BZIP2), CAB, CPIO, DWC, GZIP (TAR GZIP), HA, LHA (LZH), PPM, RAR, SQZ, TAR, Z, ZIP (JAR - Java ARhiver), ZOO";
 
 	//rasschitaem dlinu
 	len =	strlen(NamePlugin)
